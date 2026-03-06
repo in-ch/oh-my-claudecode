@@ -58830,6 +58830,25 @@ var TEAM_TERMINAL_VALUES = /* @__PURE__ */ new Set([
   "terminated",
   "done"
 ]);
+var TEAM_ACTIVE_STAGES = /* @__PURE__ */ new Set([
+  "team-plan",
+  "team-prd",
+  "team-exec",
+  "team-verify",
+  "team-fix"
+]);
+var TEAM_STOP_BLOCKER_MAX = 20;
+var TEAM_STOP_BLOCKER_TTL_MS = 5 * 60 * 1e3;
+var TEAM_STAGE_ALIASES = {
+  planning: "team-plan",
+  prd: "team-prd",
+  executing: "team-exec",
+  execution: "team-exec",
+  verify: "team-verify",
+  verification: "team-verify",
+  fix: "team-fix",
+  fixing: "team-fix"
+};
 function readTeamStagedState(directory, sessionId) {
   const stateDir = (0, import_path65.join)(getOmcRoot(directory), "state");
   const statePaths = sessionId ? [
@@ -58857,7 +58876,65 @@ function readTeamStagedState(directory, sessionId) {
   return null;
 }
 function getTeamStage(state) {
-  return state.stage || state.current_stage || state.currentStage || "team-exec";
+  return state.stage || state.current_stage || state.currentStage || state.current_phase || state.phase || "team-exec";
+}
+function getTeamStageForEnforcement(state) {
+  const rawStage = state.stage ?? state.current_stage ?? state.currentStage ?? state.current_phase ?? state.phase;
+  if (typeof rawStage !== "string") {
+    return null;
+  }
+  const stage = rawStage.trim().toLowerCase();
+  if (!stage) {
+    return null;
+  }
+  if (TEAM_ACTIVE_STAGES.has(stage)) {
+    return stage;
+  }
+  const alias = TEAM_STAGE_ALIASES[stage];
+  return alias && TEAM_ACTIVE_STAGES.has(alias) ? alias : null;
+}
+function readTeamStopBreakerCount(directory, sessionId) {
+  const stateDir = (0, import_path65.join)(getOmcRoot(directory), "state");
+  const breakerPath = sessionId ? (0, import_path65.join)(stateDir, "sessions", sessionId, "team-stop-breaker.json") : (0, import_path65.join)(stateDir, "team-stop-breaker.json");
+  try {
+    if (!(0, import_fs57.existsSync)(breakerPath)) {
+      return 0;
+    }
+    const parsed = JSON.parse((0, import_fs57.readFileSync)(breakerPath, "utf-8"));
+    if (typeof parsed.updated_at === "string") {
+      const updatedAt = new Date(parsed.updated_at).getTime();
+      if (Number.isFinite(updatedAt) && Date.now() - updatedAt > TEAM_STOP_BLOCKER_TTL_MS) {
+        return 0;
+      }
+    }
+    const count = typeof parsed.count === "number" ? parsed.count : Number.NaN;
+    return Number.isFinite(count) && count >= 0 ? Math.floor(count) : 0;
+  } catch {
+    return 0;
+  }
+}
+function writeTeamStopBreakerCount(directory, sessionId, count) {
+  const stateDir = (0, import_path65.join)(getOmcRoot(directory), "state");
+  const breakerPath = sessionId ? (0, import_path65.join)(stateDir, "sessions", sessionId, "team-stop-breaker.json") : (0, import_path65.join)(stateDir, "team-stop-breaker.json");
+  const safeCount = Number.isFinite(count) && count > 0 ? Math.floor(count) : 0;
+  if (safeCount === 0) {
+    try {
+      if ((0, import_fs57.existsSync)(breakerPath)) {
+        (0, import_fs57.unlinkSync)(breakerPath);
+      }
+    } catch {
+    }
+    return;
+  }
+  try {
+    (0, import_fs57.mkdirSync)((0, import_path65.dirname)(breakerPath), { recursive: true });
+    (0, import_fs57.writeFileSync)(
+      breakerPath,
+      JSON.stringify({ count: safeCount, updated_at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2),
+      "utf-8"
+    );
+  } catch {
+  }
 }
 function isTeamStateTerminal(state) {
   if (state.terminal === true || state.cancelled === true || state.canceled === true || state.completed === true) {
@@ -59113,6 +59190,7 @@ async function processPersistentMode(input) {
   const output = createHookOutput2(result);
   const teamState = readTeamStagedState(directory, sessionId);
   if (!teamState || teamState.active !== true || isTeamStateTerminal(teamState)) {
+    writeTeamStopBreakerCount(directory, sessionId, 0);
     if (result.mode === "none" && sessionId) {
       const isAbort = stopContext.user_requested === true || stopContext.userRequested === true;
       const isContextLimit = stopContext.stop_reason === "context_limit" || stopContext.stopReason === "context_limit";
@@ -59136,12 +59214,24 @@ async function processPersistentMode(input) {
     return output;
   }
   if (isExplicitCancelCommand2(stopContext)) {
+    writeTeamStopBreakerCount(directory, sessionId, 0);
     return output;
   }
   if (isAuthenticationError2(stopContext)) {
+    writeTeamStopBreakerCount(directory, sessionId, 0);
     return output;
   }
-  const stage = getTeamStage(teamState);
+  const stage = getTeamStageForEnforcement(teamState);
+  if (!stage) {
+    writeTeamStopBreakerCount(directory, sessionId, 0);
+    return output;
+  }
+  const newBreakerCount = readTeamStopBreakerCount(directory, sessionId) + 1;
+  if (newBreakerCount > TEAM_STOP_BLOCKER_MAX) {
+    writeTeamStopBreakerCount(directory, sessionId, 0);
+    return output;
+  }
+  writeTeamStopBreakerCount(directory, sessionId, newBreakerCount);
   const stagePrompt = getTeamStagePrompt(stage);
   const teamName = teamState.team_name || teamState.teamName || "team";
   const currentMessage = output.message ? `${output.message}

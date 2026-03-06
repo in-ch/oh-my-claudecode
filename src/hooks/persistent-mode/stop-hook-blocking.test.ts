@@ -373,6 +373,57 @@ describe("Stop Hook Blocking Contract", () => {
       expect(output.continue).toBe(true);
     });
 
+    it("fails open for missing/unknown Team phase in script", () => {
+      const sessionId = "team-phase-mjs";
+      const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+      mkdirSync(sessionDir, { recursive: true });
+
+      writeFileSync(
+        join(sessionDir, "team-state.json"),
+        JSON.stringify({
+          active: true,
+          session_id: sessionId,
+          last_checked_at: new Date().toISOString(),
+          started_at: new Date().toISOString(),
+        })
+      );
+      const missingPhaseOutput = runScript({ directory: tempDir, sessionId });
+      expect(missingPhaseOutput.continue).toBe(true);
+
+      writeFileSync(
+        join(sessionDir, "team-state.json"),
+        JSON.stringify({
+          active: true,
+          session_id: sessionId,
+          current_phase: "phase-does-not-exist",
+          last_checked_at: new Date().toISOString(),
+          started_at: new Date().toISOString(),
+        })
+      );
+      const unknownPhaseOutput = runScript({ directory: tempDir, sessionId });
+      expect(unknownPhaseOutput.continue).toBe(true);
+    });
+
+    it("applies Team circuit breaker after max reinforcements in script", () => {
+      const sessionId = "team-breaker-mjs";
+      const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+      mkdirSync(sessionDir, { recursive: true });
+      writeFileSync(
+        join(sessionDir, "team-state.json"),
+        JSON.stringify({
+          active: true,
+          session_id: sessionId,
+          current_phase: "team-exec",
+          reinforcement_count: 20,
+          last_checked_at: new Date().toISOString(),
+          started_at: new Date().toISOString(),
+        })
+      );
+
+      const output = runScript({ directory: tempDir, sessionId });
+      expect(output.continue).toBe(true);
+    });
+
     it("returns continue: true for terminal autopilot state", () => {
       const sessionId = "autopilot-complete";
       const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
@@ -446,6 +497,51 @@ describe("Stop Hook Blocking Contract", () => {
         directory: tempDir,
         sessionId,
         stop_reason: "oauth_expired",
+      });
+      expect(output.continue).toBe(true);
+    });
+
+    it("fails open for unknown Team phase in cjs script", () => {
+      const sessionId = "team-phase-cjs";
+      const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+      mkdirSync(sessionDir, { recursive: true });
+      writeFileSync(
+        join(sessionDir, "team-state.json"),
+        JSON.stringify({
+          active: true,
+          session_id: sessionId,
+          current_phase: "totally-unknown",
+          last_checked_at: new Date().toISOString(),
+          started_at: new Date().toISOString(),
+        })
+      );
+
+      const output = runScript({
+        directory: tempDir,
+        sessionId,
+      });
+      expect(output.continue).toBe(true);
+    });
+
+    it("applies Team circuit breaker in cjs script", () => {
+      const sessionId = "team-breaker-cjs";
+      const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+      mkdirSync(sessionDir, { recursive: true });
+      writeFileSync(
+        join(sessionDir, "team-state.json"),
+        JSON.stringify({
+          active: true,
+          session_id: sessionId,
+          current_phase: "team-exec",
+          reinforcement_count: 20,
+          last_checked_at: new Date().toISOString(),
+          started_at: new Date().toISOString(),
+        })
+      );
+
+      const output = runScript({
+        directory: tempDir,
+        sessionId,
       });
       expect(output.continue).toBe(true);
     });

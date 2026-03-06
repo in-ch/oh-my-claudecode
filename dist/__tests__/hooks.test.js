@@ -546,6 +546,60 @@ describe('Team staged workflow integration', () => {
         expect(result.continue).toBe(true);
         expect(result.message || '').not.toContain('[TEAM MODE CONTINUATION]');
     });
+    it('fails open when Team stage is missing', async () => {
+        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+            active: true,
+            session_id: sessionId,
+            team_name: 'delivery-team'
+        }));
+        const result = await processHook('persistent-mode', {
+            sessionId,
+            directory: testDir,
+        });
+        expect(result.continue).toBe(true);
+        expect(result.message || '').not.toContain('[TEAM MODE CONTINUATION]');
+    });
+    it('fails open when Team stage is unknown or malformed', async () => {
+        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+            active: true,
+            session_id: sessionId,
+            stage: { bad: true },
+            team_name: 'delivery-team'
+        }));
+        const malformedResult = await processHook('persistent-mode', {
+            sessionId,
+            directory: testDir,
+        });
+        expect(malformedResult.continue).toBe(true);
+        expect(malformedResult.message || '').not.toContain('[TEAM MODE CONTINUATION]');
+        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+            active: true,
+            session_id: sessionId,
+            stage: 'team-unknown',
+            team_name: 'delivery-team'
+        }));
+        const unknownResult = await processHook('persistent-mode', {
+            sessionId,
+            directory: testDir,
+        });
+        expect(unknownResult.continue).toBe(true);
+        expect(unknownResult.message || '').not.toContain('[TEAM MODE CONTINUATION]');
+    });
+    it('trips Team continuation circuit breaker after max stop reinforcements', async () => {
+        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+            active: true,
+            session_id: sessionId,
+            stage: 'team-exec',
+            team_name: 'delivery-team'
+        }));
+        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-stop-breaker.json'), JSON.stringify({ count: 20, updated_at: new Date().toISOString() }, null, 2));
+        const result = await processHook('persistent-mode', {
+            sessionId,
+            directory: testDir,
+        });
+        expect(result.continue).toBe(true);
+        expect(result.message || '').not.toContain('[TEAM MODE CONTINUATION]');
+    });
 });
 describe('Persistent-mode reply cleanup behavior', () => {
     const originalHome = process.env.HOME;

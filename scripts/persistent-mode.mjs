@@ -132,6 +132,29 @@ Do NOT skip this step. Do NOT move on without fixing the error.
  * from causing the stop hook to malfunction in new sessions.
  */
 const STALE_STATE_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
+const TEAM_TERMINAL_PHASES = new Set([
+  "completed",
+  "complete",
+  "failed",
+  "cancelled",
+  "canceled",
+  "aborted",
+  "terminated",
+  "done",
+]);
+const TEAM_ACTIVE_PHASES = new Set([
+  "team-plan",
+  "team-prd",
+  "team-exec",
+  "team-verify",
+  "team-fix",
+  "planning",
+  "executing",
+  "verify",
+  "verification",
+  "fix",
+  "fixing",
+]);
 
 /**
  * Check if a state is stale based on its timestamps.
@@ -151,6 +174,23 @@ function isStaleState(state) {
 
   const age = Date.now() - mostRecent;
   return age > STALE_STATE_THRESHOLD_MS;
+}
+
+function normalizeTeamPhase(state) {
+  if (!state || typeof state !== "object") return null;
+
+  const rawPhase = state.current_phase ?? state.phase ?? state.stage;
+  if (typeof rawPhase !== "string") return null;
+
+  const phase = rawPhase.trim().toLowerCase();
+  if (!phase || TEAM_TERMINAL_PHASES.has(phase)) return null;
+  return TEAM_ACTIVE_PHASES.has(phase) ? phase : null;
+}
+
+function getSafeReinforcementCount(value) {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0
+    ? Math.floor(value)
+    : 0;
 }
 
 /**
@@ -720,10 +760,9 @@ async function main() {
         ? team.state.session_id === sessionId
         : !team.state.session_id || team.state.session_id === sessionId;
       if (sessionMatches) {
-        const phase = team.state.current_phase || "executing";
-        const terminalPhases = ["completed", "complete", "failed", "cancelled"];
-        if (!terminalPhases.includes(phase)) {
-          const newCount = (team.state.reinforcement_count || 0) + 1;
+        const phase = normalizeTeamPhase(team.state);
+        if (phase) {
+          const newCount = getSafeReinforcementCount(team.state.reinforcement_count) + 1;
           if (newCount <= 20) {
             const toolError = readLastToolError(stateDir);
             const errorGuidance = getToolErrorRetryGuidance(toolError);
@@ -760,10 +799,9 @@ async function main() {
         ? omcTeams.state.session_id === sessionId
         : !omcTeams.state.session_id || omcTeams.state.session_id === sessionId;
       if (sessionMatches) {
-        const phase = omcTeams.state.current_phase || "executing";
-        const terminalPhases = ["completed", "complete", "failed", "cancelled"];
-        if (!terminalPhases.includes(phase)) {
-          const newCount = (omcTeams.state.reinforcement_count || 0) + 1;
+        const phase = normalizeTeamPhase(omcTeams.state);
+        if (phase) {
+          const newCount = getSafeReinforcementCount(omcTeams.state.reinforcement_count) + 1;
           if (newCount <= 20) {
             const toolError = readLastToolError(stateDir);
             const errorGuidance = getToolErrorRetryGuidance(toolError);

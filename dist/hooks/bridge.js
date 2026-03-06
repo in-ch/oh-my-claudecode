@@ -13,8 +13,8 @@
  * ```
  */
 import { pathToFileURL } from 'url';
-import { existsSync, readFileSync } from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { dirname, join } from "path";
 import { resolveToWorktreeRoot, getOmcRoot } from "../lib/worktree-paths.js";
 // Hot-path imports: needed on every/most hook invocations (keyword-detector, pre/post-tool-use)
 import { removeCodeBlocks, getAllKeywordsWithSizeCheck, applyRalplanGate, sanitizeForKeywordDetection, NON_LATIN_SCRIPT_PATTERN } from "./keyword-detector/index.js";
@@ -47,6 +47,25 @@ const TEAM_TERMINAL_VALUES = new Set([
     "terminated",
     "done",
 ]);
+const TEAM_ACTIVE_STAGES = new Set([
+    "team-plan",
+    "team-prd",
+    "team-exec",
+    "team-verify",
+    "team-fix",
+]);
+const TEAM_STOP_BLOCKER_MAX = 20;
+const TEAM_STOP_BLOCKER_TTL_MS = 5 * 60 * 1000;
+const TEAM_STAGE_ALIASES = {
+    planning: "team-plan",
+    prd: "team-prd",
+    executing: "team-exec",
+    execution: "team-exec",
+    verify: "team-verify",
+    verification: "team-verify",
+    fix: "team-fix",
+    fixing: "team-fix",
+};
 function readTeamStagedState(directory, sessionId) {
     const stateDir = join(getOmcRoot(directory), "state");
     const statePaths = sessionId
@@ -77,7 +96,75 @@ function readTeamStagedState(directory, sessionId) {
     return null;
 }
 function getTeamStage(state) {
-    return state.stage || state.current_stage || state.currentStage || "team-exec";
+    return (state.stage ||
+        state.current_stage ||
+        state.currentStage ||
+        state.current_phase ||
+        state.phase ||
+        "team-exec");
+}
+function getTeamStageForEnforcement(state) {
+    const rawStage = state.stage ?? state.current_stage ?? state.currentStage ?? state.current_phase ?? state.phase;
+    if (typeof rawStage !== "string") {
+        return null;
+    }
+    const stage = rawStage.trim().toLowerCase();
+    if (!stage) {
+        return null;
+    }
+    if (TEAM_ACTIVE_STAGES.has(stage)) {
+        return stage;
+    }
+    const alias = TEAM_STAGE_ALIASES[stage];
+    return alias && TEAM_ACTIVE_STAGES.has(alias) ? alias : null;
+}
+function readTeamStopBreakerCount(directory, sessionId) {
+    const stateDir = join(getOmcRoot(directory), "state");
+    const breakerPath = sessionId
+        ? join(stateDir, "sessions", sessionId, "team-stop-breaker.json")
+        : join(stateDir, "team-stop-breaker.json");
+    try {
+        if (!existsSync(breakerPath)) {
+            return 0;
+        }
+        const parsed = JSON.parse(readFileSync(breakerPath, "utf-8"));
+        if (typeof parsed.updated_at === "string") {
+            const updatedAt = new Date(parsed.updated_at).getTime();
+            if (Number.isFinite(updatedAt) && Date.now() - updatedAt > TEAM_STOP_BLOCKER_TTL_MS) {
+                return 0;
+            }
+        }
+        const count = typeof parsed.count === "number" ? parsed.count : Number.NaN;
+        return Number.isFinite(count) && count >= 0 ? Math.floor(count) : 0;
+    }
+    catch {
+        return 0;
+    }
+}
+function writeTeamStopBreakerCount(directory, sessionId, count) {
+    const stateDir = join(getOmcRoot(directory), "state");
+    const breakerPath = sessionId
+        ? join(stateDir, "sessions", sessionId, "team-stop-breaker.json")
+        : join(stateDir, "team-stop-breaker.json");
+    const safeCount = Number.isFinite(count) && count > 0 ? Math.floor(count) : 0;
+    if (safeCount === 0) {
+        try {
+            if (existsSync(breakerPath)) {
+                unlinkSync(breakerPath);
+            }
+        }
+        catch {
+            // no-op
+        }
+        return;
+    }
+    try {
+        mkdirSync(dirname(breakerPath), { recursive: true });
+        writeFileSync(breakerPath, JSON.stringify({ count: safeCount, updated_at: new Date().toISOString() }, null, 2), "utf-8");
+    }
+    catch {
+        // no-op
+    }
 }
 function isTeamStateTerminal(state) {
     if (state.terminal === true || state.cancelled === true || state.canceled === true || state.completed === true) {
@@ -390,6 +477,7 @@ async function processPersistentMode(input) {
     const output = createHookOutput(result);
     const teamState = readTeamStagedState(directory, sessionId);
     if (!teamState || teamState.active !== true || isTeamStateTerminal(teamState)) {
+        writeTeamStopBreakerCount(directory, sessionId, 0);
         // No persistent mode and no active team — Claude is truly idle.
         // Send session-idle notification (non-blocking) unless this was a user abort or context limit.
         if (result.mode === "none" && sessionId) {
@@ -418,14 +506,28 @@ async function processPersistentMode(input) {
     }
     // Explicit cancel should suppress team continuation prompts.
     if (isExplicitCancelCommand(stopContext)) {
+        writeTeamStopBreakerCount(directory, sessionId, 0);
         return output;
     }
     // Auth failures (401/403/expired OAuth) should not inject Team continuation.
     // Otherwise stop hooks can force a retry loop while credentials are invalid.
     if (isAuthenticationError(stopContext)) {
+        writeTeamStopBreakerCount(directory, sessionId, 0);
         return output;
     }
-    const stage = getTeamStage(teamState);
+    const stage = getTeamStageForEnforcement(teamState);
+    if (!stage) {
+        // Fail-open for missing/corrupt/unknown phase/state values.
+        writeTeamStopBreakerCount(directory, sessionId, 0);
+        return output;
+    }
+    const newBreakerCount = readTeamStopBreakerCount(directory, sessionId) + 1;
+    if (newBreakerCount > TEAM_STOP_BLOCKER_MAX) {
+        // Circuit breaker: never allow infinite stop-hook blocking loops.
+        writeTeamStopBreakerCount(directory, sessionId, 0);
+        return output;
+    }
+    writeTeamStopBreakerCount(directory, sessionId, newBreakerCount);
     const stagePrompt = getTeamStagePrompt(stage);
     const teamName = teamState.team_name || teamState.teamName || "team";
     const currentMessage = output.message ? `${output.message}\n` : "";
