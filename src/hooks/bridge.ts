@@ -1542,7 +1542,13 @@ export async function processHook(
           hook_event_name: "SessionEnd",
           reason: (rawSE.reason as SessionEndInput["reason"]) ?? "other",
         };
-        return await handleSessionEnd(sessionEndInput);
+        const result = await handleSessionEnd(sessionEndInput);
+        _openclaw.wake("session-end", {
+          sessionId: sessionEndInput.session_id,
+          projectPath: sessionEndInput.cwd,
+          reason: sessionEndInput.reason,
+        });
+        return result;
       }
 
       case "subagent-start": {

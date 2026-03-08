@@ -59985,7 +59985,9 @@ var KNOWN_FIELDS = /* @__PURE__ */ new Set([
   "output",
   "result",
   "error",
-  "status"
+  "status",
+  // Session-end fields
+  "reason"
 ]);
 var CAMEL_CASE_MARKERS = /* @__PURE__ */ new Set(["sessionId", "toolName", "directory"]);
 function hasSnakeCaseKeys(obj) {
@@ -61152,7 +61154,13 @@ async function processHook(hookType, rawInput) {
           hook_event_name: "SessionEnd",
           reason: rawSE.reason ?? "other"
         };
-        return await handleSessionEnd2(sessionEndInput);
+        const result = await handleSessionEnd2(sessionEndInput);
+        _openclaw.wake("session-end", {
+          sessionId: sessionEndInput.session_id,
+          projectPath: sessionEndInput.cwd,
+          reason: sessionEndInput.reason
+        });
+        return result;
       }
       case "subagent-start": {
         if (!validateHookInput(input, requiredKeysForHook("subagent-start"), "subagent-start")) {
