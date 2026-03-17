@@ -25,6 +25,7 @@ import { notepadTools } from '../tools/notepad-tools.js';
 import { memoryTools } from '../tools/memory-tools.js';
 import { traceTools } from '../tools/trace-tools.js';
 import { registerStandaloneShutdownHandlers } from './standalone-shutdown.js';
+import { cleanupOwnedBridgeSessions } from '../tools/python-repl/bridge-manager.js';
 import { z } from 'zod';
 
 // Tool interface matching our tool definitions
@@ -199,6 +200,11 @@ async function gracefulShutdown(signal: string): Promise<void> {
 
   console.error(`OMC MCP Server: received ${signal}, disconnecting LSP servers...`);
 
+  try {
+    await cleanupOwnedBridgeSessions();
+  } catch {
+    // Best-effort — do not block exit
+  }
   try {
     await disconnectAllLsp();
   } catch {

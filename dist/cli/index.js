@@ -30,6 +30,7 @@ import { interopCommand } from './interop.js';
 import { askCommand, ASK_USAGE } from './ask.js';
 import { warnIfWin32 } from './win32-warning.js';
 import { autoresearchCommand } from './autoresearch.js';
+import { runHudWatchLoop } from './hud-watch.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const version = getRuntimePackageVersion();
 const program = new Command();
@@ -1163,12 +1164,7 @@ program
     const { main: hudMain } = await import('../hud/index.js');
     if (options.watch) {
         const intervalMs = parseInt(options.interval, 10);
-        let skipInit = false;
-        while (true) {
-            await hudMain(true, skipInit);
-            skipInit = true;
-            await new Promise(resolve => setTimeout(resolve, intervalMs));
-        }
+        await runHudWatchLoop({ intervalMs, hudMain });
     }
     else {
         await hudMain();

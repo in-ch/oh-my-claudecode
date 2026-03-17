@@ -43,9 +43,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.regexpCode = exports2.getEsmExportName = exports2.getProperty = exports2.safeStringify = exports2.stringify = exports2.strConcat = exports2.addCodeArg = exports2.str = exports2._ = exports2.nil = exports2._Code = exports2.Name = exports2.IDENTIFIER = exports2._CodeOrName = void 0;
@@ -197,9 +197,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ValueScope = exports2.ValueScopeName = exports2.Scope = exports2.varKinds = exports2.UsedValueState = void 0;
@@ -342,9 +342,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.or = exports2.and = exports2.not = exports2.CodeGen = exports2.operators = exports2.varKinds = exports2.ValueScopeName = exports2.ValueScope = exports2.Scope = exports2.Name = exports2.regexpCode = exports2.stringify = exports2.getProperty = exports2.nil = exports2.strConcat = exports2.str = exports2._ = void 0;
@@ -1062,9 +1062,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.checkStrictMode = exports2.getErrorPath = exports2.Type = exports2.useFunc = exports2.setEvaluated = exports2.evaluatedPropsToName = exports2.mergeEvaluated = exports2.eachItem = exports2.unescapeJsonPointer = exports2.escapeJsonPointer = exports2.escapeFragment = exports2.unescapeFragment = exports2.schemaRefOrVal = exports2.schemaHasRulesButRef = exports2.schemaHasRules = exports2.checkUnknownRules = exports2.alwaysValidSchema = exports2.toHash = void 0;
@@ -1229,9 +1229,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/names.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1268,9 +1268,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendErrors = exports2.resetErrorsCount = exports2.reportExtraError = exports2.reportError = exports2.keyword$DataError = exports2.keywordError = void 0;
@@ -1390,9 +1390,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.boolOrEmptySchema = exports2.topBoolOrEmptySchema = void 0;
@@ -1441,9 +1441,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/rules.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRules = exports2.isJSONType = void 0;
@@ -1472,9 +1472,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.shouldUseRule = exports2.shouldUseGroup = exports2.schemaHasRulesForType = void 0;
@@ -1495,9 +1495,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.reportTypeError = exports2.checkDataTypes = exports2.checkDataType = exports2.coerceAndCheckDataType = exports2.getJSONTypes = exports2.getSchemaTypes = exports2.DataType = void 0;
@@ -1679,9 +1679,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.assignDefaults = void 0;
@@ -1716,9 +1716,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateUnion = exports2.validateArray = exports2.usePattern = exports2.callValidateCode = exports2.schemaProperties = exports2.allSchemaProperties = exports2.noPropertyInData = exports2.propertyInData = exports2.isOwnProperty = exports2.hasPropFunc = exports2.reportMissingProp = exports2.checkMissingProp = exports2.checkReportMissingProp = void 0;
@@ -1849,9 +1849,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateKeywordUsage = exports2.validSchemaType = exports2.funcKeywordCode = exports2.macroKeywordCode = void 0;
@@ -1967,9 +1967,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendSubschemaMode = exports2.extendSubschemaData = exports2.getSubschema = void 0;
@@ -2050,9 +2050,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-deep-equal/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function equal(a, b) {
       if (a === b) return true;
@@ -2085,9 +2085,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/json-schema-traverse/index.js"(exports2, module2) {
     "use strict";
     var traverse = module2.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2173,9 +2173,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/resolve.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getSchemaRefs = exports2.resolveUrl = exports2.normalizeId = exports2._getFullPath = exports2.getFullPath = exports2.inlineRef = void 0;
@@ -2329,9 +2329,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getData = exports2.KeywordCxt = exports2.validateFunctionCode = void 0;
@@ -2837,9 +2837,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2853,9 +2853,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2870,9 +2870,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/compile/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveSchema = exports2.getCompilingSchema = exports2.resolveRef = exports2.compileSchema = exports2.SchemaEnv = void 0;
@@ -3094,9 +3094,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
     module2.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3113,9 +3113,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3370,9 +3370,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3580,9 +3580,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/fast-uri/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/fast-uri/index.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/fast-uri/index.js"(exports2, module2) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3835,9 +3835,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/uri.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3846,9 +3846,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/core.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/core.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/core.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = void 0;
@@ -4457,9 +4457,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var def = {
@@ -4472,9 +4472,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.callRef = exports2.getValidate = void 0;
@@ -4594,9 +4594,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4615,9 +4615,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4647,9 +4647,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4675,9 +4675,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     function ucs2length(str) {
@@ -4701,9 +4701,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4733,9 +4733,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4761,9 +4761,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4790,9 +4790,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4872,9 +4872,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4901,9 +4901,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/runtime/equal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4912,9 +4912,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4979,9 +4979,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5008,9 +5008,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5057,9 +5057,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5095,9 +5095,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateAdditionalItems = void 0;
@@ -5148,9 +5148,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateTuple = void 0;
@@ -5205,9 +5205,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5222,9 +5222,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5257,9 +5257,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5351,9 +5351,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateSchemaDeps = exports2.validatePropertyDeps = exports2.error = void 0;
@@ -5445,9 +5445,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5488,9 +5488,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5594,9 +5594,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5652,9 +5652,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5726,9 +5726,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5757,9 +5757,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5774,9 +5774,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5832,9 +5832,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5859,9 +5859,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5928,9 +5928,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5946,9 +5946,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5994,9 +5994,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6084,9 +6084,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6095,9 +6095,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.contentVocabulary = exports2.metadataVocabulary = void 0;
@@ -6118,9 +6118,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6140,9 +6140,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DiscrError = void 0;
@@ -6154,9 +6154,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6259,9 +6259,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
     module2.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6416,9 +6416,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv/dist/ajv.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MissingRefError = exports2.ValidationError = exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = exports2.Ajv = void 0;
@@ -6486,9 +6486,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/formats.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatNames = exports2.fastFormats = exports2.fullFormats = void 0;
@@ -6689,9 +6689,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js"(exports2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/limit.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatLimitDefinition = void 0;
@@ -6761,9 +6761,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
+  "../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6803,7 +6803,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/external.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -6915,7 +6915,7 @@ __export(external_exports, {
   void: () => voidType
 });
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_) => {
@@ -7049,7 +7049,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7167,7 +7167,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7270,7 +7270,7 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/errors.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function setErrorMap(map) {
   overrideErrorMap = map;
@@ -7279,7 +7279,7 @@ function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path11, errorMaps, issueData } = params;
   const fullPath = [...path11, ...issueData.path || []];
@@ -7389,14 +7389,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../launch-feat-refactor-skills/node_modules/zod/v3/types.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path11, key) {
     this._cachedPath = [];
@@ -10844,7 +10844,7 @@ var coerce = {
 };
 var NEVER = INVALID;
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/core.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/core.js
 var NEVER2 = Object.freeze({
   status: "aborted"
 });
@@ -10903,7 +10903,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/util.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11424,7 +11424,7 @@ var Class = class {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/errors.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11499,7 +11499,7 @@ function formatError(error2, _mapper) {
   return fieldErrors;
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/parse.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11549,7 +11549,7 @@ var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
 };
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync($ZodRealError);
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/regexes.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -11607,7 +11607,7 @@ var _null = /null/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/checks.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -11992,7 +11992,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/doc.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12028,14 +12028,14 @@ var Doc = class {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/versions.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 0,
   patch: 0
 };
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/schemas.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -13273,7 +13273,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/locales/en.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/locales/en.js
 var parsedType = (data) => {
   const t = typeof data;
   switch (t) {
@@ -13391,7 +13391,7 @@ function en_default2() {
   };
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/registries.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/registries.js
 var $ZodRegistry = class {
   constructor() {
     this._map = /* @__PURE__ */ new Map();
@@ -13439,7 +13439,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/core/api.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -13878,7 +13878,7 @@ function _refine(Class2, fn, _params) {
   return schema;
 }
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -13941,7 +13941,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/classic/iso.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/iso.js
 var iso_exports = {};
 __export(iso_exports, {
   ZodISODate: () => ZodISODate,
@@ -13982,7 +13982,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/classic/errors.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -14016,13 +14016,13 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/classic/parse.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync2 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/classic/schemas.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
@@ -14633,10 +14633,10 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod/v4/classic/external.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -16142,15 +16142,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../launch-feat-refactor-skills/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -16171,7 +16171,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -17119,7 +17119,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -17187,7 +17187,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -17259,7 +17259,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -17294,7 +17294,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -17674,10 +17674,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var import_node_process = __toESM(require("node:process"), 1);
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -17705,7 +17705,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = import_node_process.default.stdin, _stdout = import_node_process.default.stdout) {
     this._stdin = _stdin;
@@ -18577,7 +18577,8 @@ var LspClientManager = class {
     }
     const idleFor = Date.now() - lastUsedTime;
     if (idleFor <= IDLE_TIMEOUT_MS) {
-      if (!this.idleDeadlines.has(key)) {
+      const hasDeadline = this.idleDeadlines.has(key);
+      if (!hasDeadline) {
         this.scheduleIdleDeadline(key);
       }
       return;
@@ -18640,7 +18641,7 @@ var LspClientManager = class {
 };
 var LSP_CLIENT_MANAGER_KEY = "__omcLspClientManager";
 var globalWithLspClientManager = globalThis;
-var lspClientManager = globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] || (globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] = new LspClientManager());
+var lspClientManager = globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] ?? (globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] = new LspClientManager());
 async function disconnectAll() {
   return lspClientManager.disconnectAll();
 }
@@ -20690,6 +20691,12 @@ var execFileAsync3 = (0, import_util7.promisify)(import_child_process7.execFile)
 var BRIDGE_SPAWN_TIMEOUT_MS = 3e4;
 var DEFAULT_GRACE_PERIOD_MS = 5e3;
 var SIGTERM_GRACE_MS = 2500;
+var ownedBridgeSessionIds = /* @__PURE__ */ new Set();
+function trackOwnedBridgeSession(sessionId) {
+  if (sessionId) {
+    ownedBridgeSessionIds.add(sessionId);
+  }
+}
 function getBridgeScriptPath() {
   if (process.env.OMC_BRIDGE_SCRIPT) {
     const override = path5.resolve(process.env.OMC_BRIDGE_SCRIPT);
@@ -20856,7 +20863,11 @@ async function spawnBridgeServer(sessionId, projectDir) {
   const proc = (0, import_child_process6.spawn)(pythonEnv.pythonPath, bridgeArgs, {
     stdio: ["ignore", "ignore", "pipe"],
     cwd: effectiveProjectDir,
-    env: { ...process.env, PYTHONUNBUFFERED: "1" },
+    env: {
+      ...process.env,
+      PYTHONUNBUFFERED: "1",
+      OMC_PARENT_PID: String(process.pid)
+    },
     detached: true
   });
   proc.unref();
@@ -20928,6 +20939,7 @@ async function spawnBridgeServer(sessionId, projectDir) {
   };
   const metaPath = getBridgeMetaPath(sessionId);
   await atomicWriteJson(metaPath, meta);
+  trackOwnedBridgeSession(sessionId);
   return meta;
 }
 async function ensureBridge(sessionId, projectDir) {
@@ -20968,14 +20980,17 @@ async function killBridgeWithEscalation(sessionId, options) {
   const metaPath = getBridgeMetaPath(sessionId);
   const meta = await safeReadJson(metaPath);
   if (!meta || !isValidBridgeMeta(meta)) {
+    ownedBridgeSessionIds.delete(sessionId);
     return { terminated: true };
   }
   if (meta.sessionId !== sessionId) {
     await deleteBridgeMeta(sessionId);
+    ownedBridgeSessionIds.delete(sessionId);
     return { terminated: true };
   }
   if (!await verifyProcessIdentity(meta)) {
     await deleteBridgeMeta(sessionId);
+    ownedBridgeSessionIds.delete(sessionId);
     return { terminated: true };
   }
   const waitForExit = async (timeoutMs) => {
@@ -21001,6 +21016,7 @@ async function killBridgeWithEscalation(sessionId, options) {
     }
   }
   await deleteBridgeMeta(sessionId);
+  ownedBridgeSessionIds.delete(sessionId);
   const sessionDir = getSessionDir(sessionId);
   const socketPath = meta.socketPath;
   if (socketPath.startsWith("tcp:")) {
@@ -21014,11 +21030,65 @@ async function killBridgeWithEscalation(sessionId, options) {
     terminationTimeMs: Date.now() - startTime
   };
 }
+async function cleanupBridgeSessions(sessionIds) {
+  const uniqueSessionIds = [...new Set(Array.from(sessionIds).filter(Boolean))];
+  const result = {
+    requestedSessions: uniqueSessionIds.length,
+    foundSessions: 0,
+    terminatedSessions: 0,
+    errors: []
+  };
+  for (const sessionId of uniqueSessionIds) {
+    try {
+      ownedBridgeSessionIds.delete(sessionId);
+      const metaPath = getBridgeMetaPath(sessionId);
+      const socketPath = getBridgeSocketPath(sessionId);
+      const portPath = getBridgePortPath(sessionId);
+      const lockPath = getSessionLockPath(sessionId);
+      const hasArtifacts = fs4.existsSync(metaPath) || fs4.existsSync(socketPath) || fs4.existsSync(portPath) || fs4.existsSync(lockPath);
+      if (!hasArtifacts) {
+        continue;
+      }
+      result.foundSessions++;
+      const meta = await safeReadJson(metaPath);
+      if (meta && isValidBridgeMeta(meta)) {
+        const escalation = await killBridgeWithEscalation(sessionId);
+        if (escalation.terminatedBy) {
+          result.terminatedSessions++;
+        }
+      } else {
+        await removeFileIfExists(metaPath);
+        await removeFileIfExists(socketPath);
+        await removeFileIfExists(portPath);
+      }
+      await removeFileIfExists(lockPath);
+    } catch (error2) {
+      result.errors.push(`session=${sessionId}: ${error2.message}`);
+    }
+  }
+  return result;
+}
+async function cleanupOwnedBridgeSessions() {
+  const ownedSessions = [...ownedBridgeSessionIds];
+  ownedBridgeSessionIds.clear();
+  return cleanupBridgeSessions(ownedSessions);
+}
 async function deleteBridgeMeta(sessionId) {
   const metaPath = getBridgeMetaPath(sessionId);
   try {
     await fsPromises2.unlink(metaPath);
   } catch {
+  }
+}
+async function removeFileIfExists(filePath) {
+  try {
+    await fsPromises2.unlink(filePath);
+    return true;
+  } catch (error2) {
+    if (error2?.code === "ENOENT") {
+      return false;
+    }
+    throw error2;
   }
 }
 function sleep2(ms) {
@@ -21476,7 +21546,8 @@ var OmcPaths = {
   SCIENTIST: ".omc/scientist",
   AUTOPILOT: ".omc/autopilot",
   SKILLS: ".omc/skills",
-  SHARED_MEMORY: ".omc/state/shared-memory"
+  SHARED_MEMORY: ".omc/state/shared-memory",
+  DEEPINIT_MANIFEST: ".omc/deepinit-manifest.json"
 };
 var MAX_WORKTREE_CACHE_SIZE = 8;
 var worktreeCacheMap = /* @__PURE__ */ new Map();
@@ -25030,6 +25101,70 @@ No events recorded.`
 };
 var traceTools = [traceTimelineTool, traceSummaryTool, sessionSearchTool];
 
+// src/mcp/standalone-shutdown.ts
+function resolveParentPid(processRef, overrideParentPid) {
+  if (typeof overrideParentPid === "number") {
+    return overrideParentPid;
+  }
+  if (typeof processRef.ppid === "number") {
+    return processRef.ppid;
+  }
+  if (typeof process.ppid === "number") {
+    return process.ppid;
+  }
+  return void 0;
+}
+function registerStandaloneShutdownHandlers(options) {
+  const processRef = options.processRef ?? process;
+  const pollIntervalMs = Math.max(100, options.pollIntervalMs ?? 1e3);
+  const setIntervalFn = options.setIntervalFn ?? setInterval;
+  const clearIntervalFn = options.clearIntervalFn ?? clearInterval;
+  let shutdownPromise = null;
+  let parentWatch = null;
+  const stopParentWatch = () => {
+    if (parentWatch !== null) {
+      clearIntervalFn(parentWatch);
+      parentWatch = null;
+    }
+  };
+  const shutdown = async (reason) => {
+    stopParentWatch();
+    if (!shutdownPromise) {
+      shutdownPromise = Promise.resolve(options.onShutdown(reason));
+    }
+    return shutdownPromise;
+  };
+  const register = (event, reason) => {
+    processRef.once(event, () => {
+      void shutdown(reason);
+    });
+  };
+  register("SIGTERM", "SIGTERM");
+  register("SIGINT", "SIGINT");
+  register("disconnect", "parent disconnect");
+  processRef.stdin?.once("end", () => {
+    void shutdown("stdin end");
+  });
+  processRef.stdin?.once("close", () => {
+    void shutdown("stdin close");
+  });
+  const expectedParentPid = resolveParentPid(processRef, options.parentPid);
+  if (typeof expectedParentPid === "number" && expectedParentPid > 1) {
+    const getParentPid = options.getParentPid ?? (() => resolveParentPid(processRef));
+    parentWatch = setIntervalFn(() => {
+      const currentParentPid = getParentPid();
+      if (typeof currentParentPid !== "number") {
+        return;
+      }
+      if (currentParentPid <= 1 || currentParentPid !== expectedParentPid) {
+        void shutdown(`parent pid changed (${expectedParentPid} -> ${currentParentPid})`);
+      }
+    }, pollIntervalMs);
+    parentWatch.unref?.();
+  }
+  return { shutdown };
+}
+
 // src/mcp/standalone-server.ts
 var allTools = [
   ...lspTools,
@@ -25142,41 +25277,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 });
-var gracefulShutdownPromise = null;
 async function gracefulShutdown(signal) {
-  if (gracefulShutdownPromise) {
-    return gracefulShutdownPromise;
+  const forceExitTimer = setTimeout(() => process.exit(1), 5e3);
+  forceExitTimer.unref();
+  console.error(`OMC MCP Server: received ${signal}, disconnecting LSP servers...`);
+  try {
+    await cleanupOwnedBridgeSessions();
+  } catch {
   }
-  gracefulShutdownPromise = (async () => {
-    const forceExitTimer = setTimeout(() => process.exit(1), 5e3);
-    forceExitTimer.unref();
-    console.error(`OMC MCP Server: received ${signal}, disconnecting LSP servers...`);
-    try {
-      await disconnectAll();
-    } catch {
-    }
-    try {
-      await server.close();
-    } catch {
-    }
-    process.exit(0);
-  })();
-  return gracefulShutdownPromise;
+  try {
+    await disconnectAll();
+  } catch {
+  }
+  try {
+    await server.close();
+  } catch {
+  }
+  process.exit(0);
 }
-process.on("SIGTERM", () => {
-  gracefulShutdown("SIGTERM");
-});
-process.on("SIGINT", () => {
-  gracefulShutdown("SIGINT");
-});
-process.once("disconnect", () => {
-  gracefulShutdown("parent disconnect");
-});
-process.stdin?.once("end", () => {
-  gracefulShutdown("stdin end");
-});
-process.stdin?.once("close", () => {
-  gracefulShutdown("stdin close");
+registerStandaloneShutdownHandlers({
+  onShutdown: gracefulShutdown
 });
 async function main() {
   const transport = new StdioServerTransport();

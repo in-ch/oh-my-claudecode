@@ -24,6 +24,12 @@ const execFileAsync = promisify(execFile);
 const BRIDGE_SPAWN_TIMEOUT_MS = 30000; // 30 seconds to wait for socket
 const DEFAULT_GRACE_PERIOD_MS = 5000; // 5 seconds for SIGINT
 const SIGTERM_GRACE_MS = 2500; // 2.5 seconds for SIGTERM
+const ownedBridgeSessionIds = new Set();
+export function trackOwnedBridgeSession(sessionId) {
+    if (sessionId) {
+        ownedBridgeSessionIds.add(sessionId);
+    }
+}
 // =============================================================================
 // BRIDGE PATH RESOLUTION
 // =============================================================================
@@ -307,7 +313,11 @@ export async function spawnBridgeServer(sessionId, projectDir) {
     const proc = spawn(pythonEnv.pythonPath, bridgeArgs, {
         stdio: ['ignore', 'ignore', 'pipe'],
         cwd: effectiveProjectDir,
-        env: { ...process.env, PYTHONUNBUFFERED: '1' },
+        env: {
+            ...process.env,
+            PYTHONUNBUFFERED: '1',
+            OMC_PARENT_PID: String(process.pid),
+        },
         detached: true,
     });
     proc.unref();
@@ -389,6 +399,7 @@ export async function spawnBridgeServer(sessionId, projectDir) {
     // Persist metadata
     const metaPath = getBridgeMetaPath(sessionId);
     await atomicWriteJson(metaPath, meta);
+    trackOwnedBridgeSession(sessionId);
     return meta;
 }
 // =============================================================================
@@ -472,16 +483,19 @@ export async function killBridgeWithEscalation(sessionId, options) {
     const metaPath = getBridgeMetaPath(sessionId);
     const meta = await safeReadJson(metaPath);
     if (!meta || !isValidBridgeMeta(meta)) {
+        ownedBridgeSessionIds.delete(sessionId);
         return { terminated: true }; // Already dead or no metadata
     }
     // Anti-poisoning check
     if (meta.sessionId !== sessionId) {
         await deleteBridgeMeta(sessionId);
+        ownedBridgeSessionIds.delete(sessionId);
         return { terminated: true };
     }
     // Verify we're killing the right process
     if (!(await verifyProcessIdentity(meta))) {
         await deleteBridgeMeta(sessionId);
+        ownedBridgeSessionIds.delete(sessionId);
         return { terminated: true }; // Process already dead or PID reused
     }
     // Helper to wait for process exit with identity verification
@@ -512,6 +526,7 @@ export async function killBridgeWithEscalation(sessionId, options) {
     }
     // Cleanup
     await deleteBridgeMeta(sessionId);
+    ownedBridgeSessionIds.delete(sessionId);
     const sessionDir = getSessionDir(sessionId);
     const socketPath = meta.socketPath;
     if (socketPath.startsWith('tcp:')) {
@@ -540,6 +555,7 @@ export async function cleanupBridgeSessions(sessionIds) {
     };
     for (const sessionId of uniqueSessionIds) {
         try {
+            ownedBridgeSessionIds.delete(sessionId);
             const metaPath = getBridgeMetaPath(sessionId);
             const socketPath = getBridgeSocketPath(sessionId);
             const portPath = getBridgePortPath(sessionId);
@@ -569,6 +585,11 @@ export async function cleanupBridgeSessions(sessionIds) {
         }
     }
     return result;
+}
+export async function cleanupOwnedBridgeSessions() {
+    const ownedSessions = [...ownedBridgeSessionIds];
+    ownedBridgeSessionIds.clear();
+    return cleanupBridgeSessions(ownedSessions);
 }
 /**
  * Clean up stale bridge artifacts across all runtime sessions.
