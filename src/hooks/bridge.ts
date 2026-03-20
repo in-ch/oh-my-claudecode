@@ -39,7 +39,11 @@ import {
 import { normalizeHookInput } from "./bridge-normalize.js";
 import {
   addBackgroundTask,
+  completeBackgroundTask,
+  completeMostRecentMatchingBackgroundTask,
   getRunningTaskCount,
+  remapBackgroundTaskId,
+  remapMostRecentMatchingBackgroundTaskId,
 } from "../hud/background-tasks.js";
 import { readHudState, writeHudState } from "../hud/state.js";
 import { compactOmcStartupGuidance, loadConfig } from "../config/loader.js";
@@ -118,6 +122,53 @@ const TEAM_STAGE_ALIASES: Record<string, string> = {
   fix: "team-fix",
   fixing: "team-fix",
 };
+
+const BACKGROUND_AGENT_ID_PATTERN = /agentId:\s*([a-zA-Z0-9_-]+)/;
+const TASK_OUTPUT_ID_PATTERN = /<task_id>([^<]+)<\/task_id>/i;
+const TASK_OUTPUT_STATUS_PATTERN = /<status>([^<]+)<\/status>/i;
+
+function getExtraField(input: HookInput, key: string): unknown {
+  return (input as Record<string, unknown>)[key];
+}
+
+function getHookToolUseId(input: HookInput): string | undefined {
+  const value = getExtraField(input, "tool_use_id");
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
+}
+
+function extractAsyncAgentId(toolOutput: unknown): string | undefined {
+  if (typeof toolOutput !== "string") {
+    return undefined;
+  }
+  return toolOutput.match(BACKGROUND_AGENT_ID_PATTERN)?.[1];
+}
+
+function parseTaskOutputLifecycle(toolOutput: unknown): { taskId: string; status: string } | null {
+  if (typeof toolOutput !== "string") {
+    return null;
+  }
+
+  const taskId = toolOutput.match(TASK_OUTPUT_ID_PATTERN)?.[1]?.trim();
+  const status = toolOutput.match(TASK_OUTPUT_STATUS_PATTERN)?.[1]?.trim().toLowerCase();
+  if (!taskId || !status) {
+    return null;
+  }
+
+  return { taskId, status };
+}
+
+function taskOutputDidFail(status: string): boolean {
+  return status === "failed" || status === "error";
+}
+
+function taskLaunchDidFail(toolOutput: unknown): boolean {
+  if (typeof toolOutput !== "string") {
+    return false;
+  }
+
+  const normalized = toolOutput.toLowerCase();
+  return normalized.includes("error") || normalized.includes("failed");
+}
 
 interface TeamStagedState {
   active?: boolean;
@@ -1453,7 +1504,7 @@ function processPreToolUse(input: HookInput): HookOutput {
     }
   }
 
-  // Track Task tool invocations for HUD background tasks display
+  // Track Task tool invocations for HUD display
   if (input.toolName === "Task") {
     const toolInput = (modifiedToolInput ?? input.toolInput) as
       | {
@@ -1464,7 +1515,9 @@ function processPreToolUse(input: HookInput): HookOutput {
       | undefined;
 
     if (toolInput?.description) {
-      const taskId = `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const taskId =
+        getHookToolUseId(input)
+        ?? `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       addBackgroundTask(
         taskId,
         toolInput.description,
@@ -1645,11 +1698,61 @@ async function processPostToolUse(input: HookInput): Promise<HookOutput> {
     messages.push(orchestratorResult.modifiedOutput);
   }
 
-  // After Task completion, show updated agent dashboard
+  if (input.toolName === "Task") {
+    const toolInput = input.toolInput as
+      | {
+          description?: string;
+          subagent_type?: string;
+          run_in_background?: boolean;
+        }
+      | undefined;
+    const toolUseId = getHookToolUseId(input);
+    const asyncAgentId = extractAsyncAgentId(input.toolOutput);
+    const description = toolInput?.description;
+    const agentType = toolInput?.subagent_type;
+
+    if (asyncAgentId) {
+      if (toolUseId) {
+        remapBackgroundTaskId(toolUseId, asyncAgentId, directory);
+      } else if (description) {
+        remapMostRecentMatchingBackgroundTaskId(
+          description,
+          asyncAgentId,
+          directory,
+          agentType,
+        );
+      }
+    } else {
+      const failed = taskLaunchDidFail(input.toolOutput);
+      if (toolUseId) {
+        completeBackgroundTask(toolUseId, directory, failed);
+      } else if (description) {
+        completeMostRecentMatchingBackgroundTask(
+          description,
+          directory,
+          failed,
+          agentType,
+        );
+      }
+    }
+  }
+
+  // After delegation completion, show updated agent dashboard
   if (isDelegationToolName(input.toolName)) {
     const dashboard = getAgentDashboard(directory);
     if (dashboard) {
       messages.push(dashboard);
+    }
+  }
+
+  if (input.toolName === "TaskOutput") {
+    const taskOutput = parseTaskOutputLifecycle(input.toolOutput);
+    if (taskOutput) {
+      completeBackgroundTask(
+        taskOutput.taskId,
+        directory,
+        taskOutputDidFail(taskOutput.status),
+      );
     }
   }
 
