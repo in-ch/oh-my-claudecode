@@ -22,7 +22,7 @@ import {
   getInstalledOmcPluginRoots,
   getRuntimePackageRoot,
 } from '../installer/index.js';
-import { getConfigDir } from '../utils/config-dir.js';
+import { getClaudeConfigDir } from '../utils/config-dir.js';
 import { purgeStalePluginCacheVersions } from '../utils/paths.js';
 import type { NotificationConfig } from '../notifications/types.js';
 import { isAutoUpdateDisabled } from '../lib/security-config.js';
@@ -40,7 +40,7 @@ export const GITHUB_RAW_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/$
  * and cache rebuilds reinstall old versions. (See #506)
  */
 function syncMarketplaceClone(verbose: boolean = false): { ok: boolean; message: string } {
-  const marketplacePath = join(getConfigDir(), 'plugins', 'marketplaces', 'omc');
+  const marketplacePath = join(getClaudeConfigDir(), 'plugins', 'marketplaces', 'omc');
   if (!existsSync(marketplacePath)) {
     return { ok: true, message: 'Marketplace clone not found; skipping' };
   }
@@ -211,7 +211,7 @@ export function shouldBlockStandaloneUpdateInCurrentSession(): boolean {
 }
 
 export function syncPluginCache(verbose: boolean = false): { synced: boolean; skipped: boolean; errors: string[] } {
-  const pluginCacheRoot = join(getConfigDir(), 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+  const pluginCacheRoot = join(getClaudeConfigDir(), 'plugins', 'cache', 'omc', 'oh-my-claudecode');
   if (!existsSync(pluginCacheRoot)) {
     return { synced: false, skipped: true, errors: [] };
   }
@@ -265,7 +265,7 @@ export function syncPluginCache(verbose: boolean = false): { synced: boolean; sk
 }
 
 /** Installation paths (respects CLAUDE_CONFIG_DIR env var) */
-export const CLAUDE_CONFIG_DIR = getConfigDir();
+export const CLAUDE_CONFIG_DIR = getClaudeConfigDir();
 export const VERSION_FILE = join(CLAUDE_CONFIG_DIR, '.omc-version.json');
 export const CONFIG_FILE = join(CLAUDE_CONFIG_DIR, '.omc-config.json');
 

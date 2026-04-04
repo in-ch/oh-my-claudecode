@@ -13,7 +13,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync, mkdirSync } from 'fs';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getClaudeConfigDir } from '../utils/config-dir.js';
 import { join, dirname } from 'path';
 import { execFileSync } from 'child_process';
 import { createHash } from 'crypto';
@@ -297,7 +297,11 @@ function createRateLimitedCacheEntry(
 
 /**
  * Get the Keychain service name for the current config directory.
- * Claude Code uses "Claude Code-credentials-{sha256(configDir)[:8]}" for non-default dirs.
+ * Claude Code uses "Claude Code-credentials-{sha256(configDir)[:8]}" for
+ * non-default dirs, where configDir is derived from the exact
+ * CLAUDE_CONFIG_DIR value rather than the expanded filesystem path. Preserve
+ * that behavior so ~-prefixed profiles keep matching Claude Code's own
+ * Keychain entries.
  */
 function getKeychainServiceName(): string {
   const configDir = process.env.CLAUDE_CONFIG_DIR;

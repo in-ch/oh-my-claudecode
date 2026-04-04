@@ -14,7 +14,6 @@ import {
 import { getRuntimePackageVersion } from '../lib/version.js';
 import { join, dirname } from 'path';
 import { tmpdir } from 'os';
-import { homedir } from 'os';
 import { readdirSync, readFileSync, existsSync, mkdtempSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -376,13 +375,10 @@ describe('Installer Constants', () => {
 
   describe('File Paths', () => {
     it('should define valid directory paths', () => {
-      const expectedBase = join(homedir(), '.claude');
-
-      expect(CLAUDE_CONFIG_DIR).toBe(expectedBase);
-      expect(AGENTS_DIR).toBe(join(expectedBase, 'agents'));
-      expect(COMMANDS_DIR).toBe(join(expectedBase, 'commands'));
-      expect(SKILLS_DIR).toBe(join(expectedBase, 'skills'));
-      expect(HOOKS_DIR).toBe(join(expectedBase, 'hooks'));
+      expect(AGENTS_DIR).toBe(join(CLAUDE_CONFIG_DIR, 'agents'));
+      expect(COMMANDS_DIR).toBe(join(CLAUDE_CONFIG_DIR, 'commands'));
+      expect(SKILLS_DIR).toBe(join(CLAUDE_CONFIG_DIR, 'skills'));
+      expect(HOOKS_DIR).toBe(join(CLAUDE_CONFIG_DIR, 'hooks'));
     });
 
     it('should use absolute paths', () => {
@@ -539,7 +535,7 @@ describe('Installer Constants', () => {
 
     it('should return false for global plugin installation', () => {
       // Global plugins are under ~/.claude/plugins/
-      process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode', '3.9.0');
+      process.env.CLAUDE_PLUGIN_ROOT = join(CLAUDE_CONFIG_DIR, 'plugins', 'cache', 'omc', 'oh-my-claudecode', '3.9.0');
       expect(isProjectScopedPlugin()).toBe(false);
     });
 
@@ -562,7 +558,7 @@ describe('Installer Constants', () => {
     });
 
     it('should handle trailing slashes in paths', () => {
-      process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.claude', 'plugins', 'cache', 'omc') + '/';
+      process.env.CLAUDE_PLUGIN_ROOT = join(CLAUDE_CONFIG_DIR, 'plugins', 'cache', 'omc') + '/';
       expect(isProjectScopedPlugin()).toBe(false);
     });
   });

@@ -22,7 +22,7 @@ const {
   statSync,
 } = require("fs");
 const { join, dirname, resolve, normalize } = require("path");
-const { homedir } = require("os");
+const { getClaudeConfigDir } = require("./lib/config-dir.cjs");
 
 async function readStdin(timeoutMs = 2000) {
   return new Promise((resolve) => {
@@ -413,7 +413,7 @@ function countIncompleteTasks(sessionId) {
   if (!sessionId || typeof sessionId !== "string") return 0;
   if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) return 0;
 
-  const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), ".claude");
+  const cfgDir = getClaudeConfigDir();
   const taskDir = join(cfgDir, "tasks", sessionId);
   if (!existsSync(taskDir)) return 0;
 
@@ -447,8 +447,7 @@ function countIncompleteTodos(sessionId, projectDir) {
     /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)
   ) {
     const sessionTodoPath = join(
-      homedir(),
-      ".claude",
+      getClaudeConfigDir(),
       "todos",
       `${sessionId}.json`,
     );

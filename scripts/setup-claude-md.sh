@@ -13,13 +13,15 @@ INSTALL_STYLE="${2:-overwrite}"
 DOWNLOAD_URL="https://raw.githubusercontent.com/Yeachan-Heo/oh-my-claudecode/main/docs/CLAUDE.md"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPT_PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+. "$SCRIPT_DIR/lib/config-dir.sh"
 
 # Resolve active plugin root from installed_plugins.json.
 # Handles stale CLAUDE_PLUGIN_ROOT when a session was started before a plugin
 # update (e.g. 4.8.2 session invoking setup after updating to 4.9.0).
 # Same pattern as run.cjs resolveTarget() fallback.
 resolve_active_plugin_root() {
-  local config_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+  local config_dir
+  config_dir="$(resolve_claude_config_dir)"
   local installed_plugins="${config_dir}/plugins/installed_plugins.json"
 
   if [ -f "$installed_plugins" ] && command -v jq >/dev/null 2>&1; then
@@ -89,7 +91,7 @@ EOF
 }
 
 # Determine target path
-CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+CONFIG_DIR="$(resolve_claude_config_dir)"
 if [ "$MODE" = "local" ]; then
   mkdir -p .claude/skills/omc-reference
   TARGET_PATH=".claude/CLAUDE.md"

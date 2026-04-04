@@ -5,19 +5,24 @@
  * Configures HUD statusline when plugin is installed.
  */
 
-import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, chmodSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, chmodSync, copyFileSync } from 'node:fs';
 import { execFileSync, execSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { homedir } from 'node:os';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { getClaudeConfigDir } from './lib/config-dir.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const CLAUDE_DIR = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+const CLAUDE_DIR = getClaudeConfigDir();
 const HUD_DIR = join(CLAUDE_DIR, 'hud');
+const HUD_LIB_DIR = join(HUD_DIR, 'lib');
 const SETTINGS_FILE = join(CLAUDE_DIR, 'settings.json');
+// Use the absolute node binary path so nvm/fnm users don't get
+// "node not found" errors in non-interactive shells (issue #892).
+const nodeBin = process.execPath || 'node';
 
 console.log('[OMC] Running post-install setup...');
 
@@ -25,6 +30,11 @@ console.log('[OMC] Running post-install setup...');
 if (!existsSync(HUD_DIR)) {
   mkdirSync(HUD_DIR, { recursive: true });
 }
+
+if (!existsSync(HUD_LIB_DIR)) {
+  mkdirSync(HUD_LIB_DIR, { recursive: true });
+}
+copyFileSync(join(__dirname, 'lib', 'config-dir.mjs'), join(HUD_LIB_DIR, 'config-dir.mjs'));
 
 // 2. Create HUD wrapper script
 const hudScriptPath = join(HUD_DIR, 'omc-hud.mjs').replace(/\\/g, '/');
@@ -39,7 +49,11 @@ import { existsSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const { getClaudeConfigDir } = await import(pathToFileURL(join(__dirname, "lib", "config-dir.mjs")).href);
 
 // Semantic version comparison: returns negative if a < b, positive if a > b, 0 if equal
 function semverCompare(a, b) {
@@ -133,7 +147,7 @@ async function main() {
 
   // 1. Try plugin cache first (marketplace: omc, plugin: oh-my-claudecode)
   // Respect CLAUDE_CONFIG_DIR so installs under a custom config dir are found
-  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".claude");
+  const configDir = getClaudeConfigDir();
   const pluginCacheBase = join(configDir, "plugins", "cache", "omc", "oh-my-claudecode");
   if (existsSync(pluginCacheBase)) {
     try {
@@ -224,9 +238,6 @@ try {
     settings = JSON.parse(readFileSync(SETTINGS_FILE, 'utf-8'));
   }
 
-  // Use the absolute node binary path so nvm/fnm users don't get
-  // "node not found" errors in non-interactive shells (issue #892).
-  const nodeBin = process.execPath || 'node';
   settings.statusLine = {
     type: 'command',
     command: `"${nodeBin}" "${hudScriptPath.replace(/\\/g, "/")}"`

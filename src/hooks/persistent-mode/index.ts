@@ -14,7 +14,8 @@ import { existsSync, readFileSync, unlinkSync, statSync, openSync, readSync, clo
 import { atomicWriteJsonSync } from '../../lib/atomic-write.js';
 import { join } from 'path';
 import { getHardMaxIterations } from '../../lib/security-config.js';
-import { getClaudeConfigDir, getGlobalOmcConfigCandidates } from '../../utils/paths.js';
+import { getClaudeConfigDir } from '../../utils/config-dir.js';
+import { getGlobalOmcConfigCandidates } from '../../utils/paths.js';
 import {
   readUltraworkState,
   writeUltraworkState,

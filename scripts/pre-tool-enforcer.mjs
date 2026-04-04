@@ -9,8 +9,8 @@
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, readSync, renameSync, statSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { execSync } from 'child_process';
-import { homedir } from 'os';
 import { fileURLToPath, pathToFileURL } from 'url';
+import { getClaudeConfigDir } from './lib/config-dir.mjs';
 import { readStdin } from './lib/stdin.mjs';
 
 // Inlined from src/config/models.ts — avoids a dist/ import so the hook works
@@ -139,7 +139,7 @@ function resolveTranscriptPath(transcriptPath, cwd) {
       const lastSep = transcriptPath.lastIndexOf('/');
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+        const configDir = getClaudeConfigDir();
         const projectsDir = join(configDir, 'projects');
         if (existsSync(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, '-');
@@ -247,7 +247,8 @@ function getTodoStatus(directory) {
     }
   }
 
-  // NOTE: We intentionally do NOT scan the global ~/.claude/todos/ directory.
+  // NOTE: We intentionally do NOT scan the global
+  // [$CLAUDE_CONFIG_DIR|~/.claude]/todos/ directory.
   // That directory accumulates todo files from ALL past sessions across all
   // projects, causing phantom task counts in fresh sessions (see issue #354).
 
@@ -362,7 +363,7 @@ function generateAgentSpawnMessage(toolInput, directory, todoStatus, sessionId) 
       `Task(team_name="${teamName}", name="worker-N", subagent_type="${agentType}"). ` +
       `Do NOT use Task without team_name during an active team session. ` +
       `If TeamCreate is not available in your tools, tell the user to verify ` +
-      `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 is set in ~/.claude/settings.json and restart Claude Code.`;
+      'CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 is set in [$CLAUDE_CONFIG_DIR|~/.claude]/settings.json. Restart Claude Code.';
   }
 
   if (QUIET_LEVEL >= 2) return '';
@@ -455,7 +456,7 @@ function getSkillProtectionLevel(skillName, rawSkillName) {
 // Load OMC config to check forceInherit setting (issues #1135, #1201)
 function loadOmcConfig() {
   const configPaths = [
-    join(homedir(), '.claude', '.omc-config.json'),
+    join(getClaudeConfigDir(), '.omc-config.json'),
     join(process.cwd(), '.omc', 'config.json'),
   ];
   for (const configPath of configPaths) {

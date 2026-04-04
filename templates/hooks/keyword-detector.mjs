@@ -34,6 +34,7 @@ const __dirname = dirname(__filename);
 // Dynamic import for the shared stdin module (use pathToFileURL for Windows compatibility, #524)
 const { readStdin } = await import(pathToFileURL(join(__dirname, 'lib', 'stdin.mjs')).href);
 const { atomicWriteFileSync } = await import(pathToFileURL(join(__dirname, 'lib', 'atomic-write.mjs')).href);
+const { getClaudeConfigDir } = await import(pathToFileURL(join(__dirname, 'lib', 'config-dir.mjs')).href);
 
 const ULTRATHINK_MESSAGE = `<think-mode>
 
@@ -370,13 +371,14 @@ function createHookOutput(additionalContext) {
 
 /**
  * Check if the team feature is enabled in Claude Code settings.
- * Reads ~/.claude/settings.json and checks for CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var.
+ * Reads settings.json from [$CLAUDE_CONFIG_DIR|~/.claude] and checks for
+ * CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var.
  * @returns {boolean} true if team feature is enabled
  */
 function isTeamEnabled() {
   try {
     // Check settings.json first (authoritative, user-controlled)
-    const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+    const cfgDir = getClaudeConfigDir();
     const settingsPath = join(cfgDir, 'settings.json');
     if (existsSync(settingsPath)) {
       const settings = JSON.parse(readFileSync(settingsPath, 'utf-8'));

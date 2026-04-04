@@ -74,7 +74,7 @@ describe('getUsage lock failure fallback', () => {
 
   afterEach(() => {
     process.env = { ...originalEnv };
-    vi.unmock('../../utils/paths.js');
+    vi.unmock('../../utils/config-dir.js');
     vi.unmock('../../utils/ssrf-guard.js');
     vi.unmock('fs');
     vi.unmock('child_process');
@@ -104,7 +104,7 @@ describe('getUsage lock failure fallback', () => {
       return originalKill.call(process, pid, signal);
     }) as typeof process.kill;
 
-    vi.doMock('../../utils/paths.js', () => ({
+    vi.doMock('../../utils/config-dir.js', () => ({
       getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
@@ -151,7 +151,7 @@ describe('getUsage lock failure fallback', () => {
       return originalKill.call(process, pid, signal);
     }) as typeof process.kill;
 
-    vi.doMock('../../utils/paths.js', () => ({
+    vi.doMock('../../utils/config-dir.js', () => ({
       getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
@@ -193,7 +193,7 @@ describe('getUsage lock behavior', () => {
 
   afterEach(() => {
     process.env = { ...originalEnv };
-    vi.unmock('../../utils/paths.js');
+    vi.unmock('../../utils/config-dir.js');
     vi.unmock('../../utils/ssrf-guard.js');
     vi.unmock('fs');
     vi.unmock('child_process');
@@ -213,7 +213,7 @@ describe('getUsage lock behavior', () => {
     const { files, fsModule } = createFsMock({ [CACHE_PATH]: expiredCache });
     let requestSawLock = false;
 
-    vi.doMock('../../utils/paths.js', () => ({
+    vi.doMock('../../utils/config-dir.js', () => ({
       getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({

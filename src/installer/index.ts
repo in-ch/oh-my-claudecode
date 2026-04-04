@@ -19,12 +19,12 @@ import {
   getHooksSettingsConfig,
 } from './hooks.js';
 import { getRuntimePackageVersion } from '../lib/version.js';
-import { getConfigDir } from '../utils/config-dir.js';
+import { getClaudeConfigDir } from '../utils/config-dir.js';
 import { resolveNodeBinary } from '../utils/resolve-node.js';
 import { syncUnifiedMcpRegistryTargets } from './mcp-registry.js';
 
 /** Claude Code configuration directory */
-export const CLAUDE_CONFIG_DIR = getConfigDir();
+export const CLAUDE_CONFIG_DIR = getClaudeConfigDir();
 export const AGENTS_DIR = join(CLAUDE_CONFIG_DIR, 'agents');
 export const COMMANDS_DIR = join(CLAUDE_CONFIG_DIR, 'commands');
 export const SKILLS_DIR = join(CLAUDE_CONFIG_DIR, 'skills');
@@ -402,9 +402,14 @@ const STANDALONE_HOOK_TEMPLATE_FILES = [
 function ensureStandaloneHookScripts(log: (msg: string) => void): void {
   const packageDir = getPackageDir();
   const templatesDir = join(packageDir, 'templates', 'hooks');
+  const templatesLibDir = join(templatesDir, 'lib');
+  const hooksLibDir = join(HOOKS_DIR, 'lib');
 
   if (!existsSync(HOOKS_DIR)) {
     mkdirSync(HOOKS_DIR, { recursive: true });
+  }
+  if (!existsSync(hooksLibDir)) {
+    mkdirSync(hooksLibDir, { recursive: true });
   }
 
   for (const filename of STANDALONE_HOOK_TEMPLATE_FILES) {
@@ -416,11 +421,33 @@ function ensureStandaloneHookScripts(log: (msg: string) => void): void {
     }
   }
 
+  for (const filename of readdirSync(templatesLibDir)) {
+    if (filename === 'config-dir.mjs') continue; // sourced from scripts/lib/ below
+    const sourcePath = join(templatesLibDir, filename);
+    const targetPath = join(hooksLibDir, filename);
+    copyFileSync(sourcePath, targetPath);
+    if (!isWindows()) {
+      chmodSync(targetPath, 0o755);
+    }
+  }
+
+  // config-dir.mjs: canonical source is scripts/lib/, not templates (avoids duplication)
+  const configDirHelperMjs = join(packageDir, 'scripts', 'lib', 'config-dir.mjs');
+  const configDirHelperMjsDest = join(hooksLibDir, 'config-dir.mjs');
+  copyFileSync(configDirHelperMjs, configDirHelperMjsDest);
+  if (!isWindows()) {
+    chmodSync(configDirHelperMjsDest, 0o755);
+  }
+
   if (!isWindows()) {
     const findNodeSrc = join(packageDir, 'scripts', 'find-node.sh');
     const findNodeDest = join(HOOKS_DIR, 'find-node.sh');
+    const configDirHelperSrc = join(packageDir, 'scripts', 'lib', 'config-dir.sh');
+    const configDirHelperDest = join(hooksLibDir, 'config-dir.sh');
     copyFileSync(findNodeSrc, findNodeDest);
+    copyFileSync(configDirHelperSrc, configDirHelperDest);
     chmodSync(findNodeDest, 0o755);
+    chmodSync(configDirHelperDest, 0o755);
   }
 
   log('  Installed standalone hook scripts');
@@ -1032,7 +1059,11 @@ export function install(options: InstallOptions = {}): InstallResult {
         'import { createRequire } from "node:module";',
         'import { homedir } from "node:os";',
         'import { dirname, join, resolve } from "node:path";',
-        'import { pathToFileURL } from "node:url";',
+        'import { fileURLToPath, pathToFileURL } from "node:url";',
+        '',
+        'const __filename = fileURLToPath(import.meta.url);',
+        'const __dirname = dirname(__filename);',
+        'const { getClaudeConfigDir } = await import(pathToFileURL(join(__dirname, "lib", "config-dir.mjs")).href);',
         '',
         'function uniquePaths(paths) {',
         '  return [...new Set(paths.filter(Boolean).map((candidate) => resolve(candidate)))];',
@@ -1127,7 +1158,7 @@ export function install(options: InstallOptions = {}): InstallResult {
         '  ',
         '  // 2. Plugin cache (for production installs)',
         '  // Respect CLAUDE_CONFIG_DIR so installs under a custom config dir are found',
-        '  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".claude");',
+        '  const configDir = getClaudeConfigDir();',
         '  const pluginCacheBase = join(configDir, "plugins", "cache", "omc", "oh-my-claudecode");',
         '  if (existsSync(pluginCacheBase)) {',
         '    try {',
@@ -1276,6 +1307,17 @@ export function install(options: InstallOptions = {}): InstallResult {
       if (hudScriptPath) {
         const nodeBin = resolveNodeBinary();
         const absoluteCommand = '"' + nodeBin + '" "' + hudScriptPath.replace(/\\/g, '/') + '"';
+        try {
+          const configDirHelperMjsSrc = join(__dirname, '..', '..', 'scripts', 'lib', 'config-dir.mjs');
+          const hudLibDir = join(HUD_DIR, 'lib');
+          const configDirHelperMjsDest = join(hudLibDir, 'config-dir.mjs');
+          if (!existsSync(hudLibDir)) {
+            mkdirSync(hudLibDir, { recursive: true });
+          }
+          copyFileSync(configDirHelperMjsSrc, configDirHelperMjsDest);
+        } catch {
+          // Keep HUD installation best-effort if helper copy fails unexpectedly.
+        }
 
         // On Unix, use find-node.sh for portable $HOME paths (multi-machine sync)
         // and robust node discovery (nvm/fnm in non-interactive shells).
@@ -1286,8 +1328,16 @@ export function install(options: InstallOptions = {}): InstallResult {
           try {
             const findNodeSrc = join(__dirname, '..', '..', 'scripts', 'find-node.sh');
             const findNodeDest = join(HUD_DIR, 'find-node.sh');
+            const configDirHelperSrc = join(__dirname, '..', '..', 'scripts', 'lib', 'config-dir.sh');
+            const hudLibDir = join(HUD_DIR, 'lib');
+            const configDirHelperDest = join(hudLibDir, 'config-dir.sh');
+            if (!existsSync(hudLibDir)) {
+              mkdirSync(hudLibDir, { recursive: true });
+            }
             copyFileSync(findNodeSrc, findNodeDest);
+            copyFileSync(configDirHelperSrc, configDirHelperDest);
             chmodSync(findNodeDest, 0o755);
+            chmodSync(configDirHelperDest, 0o755);
             statusLineCommand = buildStatusLineCommand(nodeBin, hudScriptPath.replace(/\\/g, '/'), findNodeDest);
           } catch {
             // Fallback to bare node if find-node.sh copy fails

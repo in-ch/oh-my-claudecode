@@ -9,7 +9,7 @@
 import { join } from 'path';
 import { existsSync, readFileSync, readdirSync, statSync, unlinkSync, rmSync } from 'fs';
 import { homedir } from 'os';
-import { getConfigDir as getClaudeBaseConfigDir } from './config-dir.js';
+import { getClaudeConfigDir } from './config-dir.js';
 
 /**
  * Convert a path to use forward slashes (for JSON/config files)
@@ -18,14 +18,6 @@ import { getConfigDir as getClaudeBaseConfigDir } from './config-dir.js';
  */
 export function toForwardSlash(path: string): string {
   return path.replace(/\\/g, '/');
-}
-
-/**
- * Get Claude config directory path.
- * Respects the CLAUDE_CONFIG_DIR environment variable when set.
- */
-export function getClaudeConfigDir(): string {
-  return getClaudeBaseConfigDir();
 }
 
 /**

@@ -13,7 +13,7 @@ import { join, dirname } from "path";
 import { readFileSync, existsSync } from "fs";
 import { fileURLToPath } from "url";
 import { homedir } from "os";
-import { getConfigDir } from '../utils/config-dir.js';
+import { getClaudeConfigDir } from '../utils/config-dir.js';
 
 // =============================================================================
 // TEMPLATE LOADER (loads hook scripts from templates/hooks/)
@@ -69,11 +69,6 @@ export function isWindows(): boolean {
   return process.platform === "win32";
 }
 
-
-/** Get the Claude config directory path (cross-platform) */
-export function getClaudeConfigDir(): string {
-  return getConfigDir();
-}
 
 /** Get the hooks directory path */
 export function getHooksDir(): string {

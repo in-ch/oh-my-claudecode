@@ -14,6 +14,7 @@ import { execSync } from 'child_process';
 import { existsSync, mkdirSync, realpathSync, readdirSync } from 'fs';
 import { homedir } from 'os';
 import { resolve, normalize, relative, sep, join, isAbsolute, basename, dirname } from 'path';
+import { getClaudeConfigDir } from '../utils/config-dir.js';
 
 /** Standard .omc subdirectories */
 export const OmcPaths = {
@@ -422,15 +423,18 @@ export function isValidTranscriptPath(transcriptPath: string): boolean {
   const normalized = normalize(expandedPath);
   const home = homedir();
 
-  // Allowed: ~/.claude/..., ~/.omc/..., /tmp/...
+  // Allowed: [$CLAUDE_CONFIG_DIR|~/.claude], ~/.omc/..., /tmp/...
   const allowedPrefixes = [
-    join(home, '.claude'),
+    getClaudeConfigDir(),
     join(home, '.omc'),
     '/tmp',
     '/var/folders', // macOS temp
   ];
 
-  return allowedPrefixes.some(prefix => normalized.startsWith(prefix));
+  return allowedPrefixes.some((prefix) => {
+    const rel = relative(prefix, normalized);
+    return rel === '' || (!rel.startsWith('..') && !isAbsolute(rel));
+  });
 }
 
 
@@ -589,8 +593,7 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
     const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
     if (sessionFile) {
       // The projects directory is under the Claude config dir
-      const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
-      const projectsDir = join(configDir, 'projects');
+      const projectsDir = join(getClaudeConfigDir(), 'projects');
 
       if (existsSync(projectsDir)) {
         // Encode the main project root the same way Claude Code does:
@@ -627,8 +630,7 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
       const lastSep = transcriptPath.lastIndexOf('/');
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
-        const projectsDir = join(configDir, 'projects');
+        const projectsDir = join(getClaudeConfigDir(), 'projects');
         if (existsSync(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, '-');
           const resolvedPath = join(projectsDir, encodedMain, sessionFile);

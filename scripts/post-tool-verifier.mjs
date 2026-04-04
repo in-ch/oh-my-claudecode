@@ -10,6 +10,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync, appendFileSync, ren
 import { join, dirname } from 'path';
 import { homedir } from 'os';
 import { fileURLToPath, pathToFileURL } from 'url';
+import { getClaudeConfigDir } from './lib/config-dir.mjs';
 import { readStdin } from './lib/stdin.mjs';
 
 const AGENT_OUTPUT_ANALYSIS_LIMIT = parseInt(process.env.OMC_AGENT_OUTPUT_ANALYSIS_LIMIT || '12000', 10);
@@ -45,7 +46,7 @@ const debugLog = (...args) => {
 };
 
 // State file for session tracking
-const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+const cfgDir = getClaudeConfigDir();
 const STATE_FILE = join(cfgDir, '.session-stats.json');
 
 // Ensure state directory exists

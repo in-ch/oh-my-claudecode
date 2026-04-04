@@ -15,6 +15,7 @@ import { join } from 'node:path';
 
 const REPO_ROOT = join(__dirname, '..', '..');
 const SETUP_SCRIPT = join(REPO_ROOT, 'scripts', 'setup-claude-md.sh');
+const CONFIG_DIR_HELPER = join(REPO_ROOT, 'scripts', 'lib', 'config-dir.sh');
 
 const tempRoots: string[] = [];
 
@@ -26,13 +27,14 @@ function createPluginFixture(claudeMdContent: string) {
   const projectRoot = join(root, 'project');
   const homeRoot = join(root, 'home');
 
-  mkdirSync(join(pluginRoot, 'scripts'), { recursive: true });
+  mkdirSync(join(pluginRoot, 'scripts', 'lib'), { recursive: true });
   mkdirSync(join(pluginRoot, 'docs'), { recursive: true });
   mkdirSync(join(pluginRoot, 'skills', 'omc-reference'), { recursive: true });
   mkdirSync(projectRoot, { recursive: true });
   mkdirSync(homeRoot, { recursive: true });
 
   copyFileSync(SETUP_SCRIPT, join(pluginRoot, 'scripts', 'setup-claude-md.sh'));
+  copyFileSync(CONFIG_DIR_HELPER, join(pluginRoot, 'scripts', 'lib', 'config-dir.sh'));
   writeFileSync(join(pluginRoot, 'docs', 'CLAUDE.md'), claudeMdContent);
   writeFileSync(join(pluginRoot, 'skills', 'omc-reference', 'SKILL.md'), `---
 name: omc-reference
@@ -396,6 +398,8 @@ describe('setup-claude-md.sh stale CLAUDE_PLUGIN_ROOT resolution', () => {
     mkdirSync(join(oldVersion, 'scripts'), { recursive: true });
     mkdirSync(join(oldVersion, 'docs'), { recursive: true });
     copyFileSync(SETUP_SCRIPT, join(oldVersion, 'scripts', 'setup-claude-md.sh'));
+    mkdirSync(join(oldVersion, 'scripts', 'lib'), { recursive: true });
+    copyFileSync(CONFIG_DIR_HELPER, join(oldVersion, 'scripts', 'lib', 'config-dir.sh'));
     writeFileSync(
       join(oldVersion, 'docs', 'CLAUDE.md'),
       `<!-- OMC:START -->\n<!-- OMC:VERSION:4.8.2 -->\n\n# Old Version\n<!-- OMC:END -->\n`,
@@ -467,6 +471,8 @@ describe('setup-claude-md.sh stale CLAUDE_PLUGIN_ROOT resolution', () => {
     mkdirSync(join(oldVersion, 'scripts'), { recursive: true });
     mkdirSync(join(oldVersion, 'docs'), { recursive: true });
     copyFileSync(SETUP_SCRIPT, join(oldVersion, 'scripts', 'setup-claude-md.sh'));
+    mkdirSync(join(oldVersion, 'scripts', 'lib'), { recursive: true });
+    copyFileSync(CONFIG_DIR_HELPER, join(oldVersion, 'scripts', 'lib', 'config-dir.sh'));
     writeFileSync(
       join(oldVersion, 'docs', 'CLAUDE.md'),
       `<!-- OMC:START -->\n<!-- OMC:VERSION:4.8.2 -->\n\n# Old Version\n<!-- OMC:END -->\n`,
@@ -536,6 +542,8 @@ describe('setup-claude-md.sh stale CLAUDE_PLUGIN_ROOT resolution', () => {
     mkdirSync(join(oldVersion, 'scripts'), { recursive: true });
     mkdirSync(join(oldVersion, 'docs'), { recursive: true });
     copyFileSync(SETUP_SCRIPT, join(oldVersion, 'scripts', 'setup-claude-md.sh'));
+    mkdirSync(join(oldVersion, 'scripts', 'lib'), { recursive: true });
+    copyFileSync(CONFIG_DIR_HELPER, join(oldVersion, 'scripts', 'lib', 'config-dir.sh'));
     writeFileSync(
       join(oldVersion, 'docs', 'CLAUDE.md'),
       `<!-- OMC:START -->\n<!-- OMC:VERSION:4.8.2 -->\n\n# Old\n<!-- OMC:END -->\n`,

@@ -2,6 +2,7 @@
  * Tests for z.ai host validation, response parsing, and getUsage routing.
  */
 
+import { createHash } from 'crypto';
 import { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
 import * as fs from 'fs';
 import * as childProcess from 'child_process';
@@ -201,6 +202,8 @@ describe('getUsage routing', () => {
   const originalEnv = { ...process.env };
   const originalPlatform = process.platform;
   let httpsModule: { default: { request: ReturnType<typeof vi.fn> } };
+  const expectedServiceName = (configDir: string) =>
+    `Claude Code-credentials-${createHash('sha256').update(configDir).digest('hex').slice(0, 8)}`;
 
   beforeAll(() => {
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
@@ -233,6 +236,118 @@ describe('getUsage routing', () => {
     expect(result.error).toBe('no_credentials');
     // No network call should be made without credentials
     expect(httpsModule.default.request).not.toHaveBeenCalled();
+  });
+
+  it('uses the raw ~-prefixed CLAUDE_CONFIG_DIR value for Keychain service lookup', async () => {
+    process.env.CLAUDE_CONFIG_DIR = '~/.claude-personal';
+
+    const oneHourFromNow = Date.now() + 60 * 60 * 1000;
+    const execFileMock = vi.mocked(childProcess.execFileSync);
+    const username = os.userInfo().username;
+    const expectedService = expectedServiceName(process.env.CLAUDE_CONFIG_DIR);
+
+    execFileMock.mockImplementation((_file, args) => {
+      const argsArr = args as string[];
+      expect(argsArr).toContain('find-generic-password');
+      expect(argsArr).toContain('-s');
+      expect(argsArr).toContain(expectedService);
+
+      if (argsArr.includes('-a') && argsArr.includes(username)) {
+        return JSON.stringify({
+          claudeAiOauth: {
+            accessToken: 'raw-token',
+            refreshToken: 'raw-refresh',
+            expiresAt: oneHourFromNow,
+          },
+        });
+      }
+
+      throw new Error(`unexpected keychain lookup: ${JSON.stringify(argsArr)}`);
+    });
+
+    httpsModule.default.request.mockImplementationOnce((_options, callback) => {
+      const req = new EventEmitter() as EventEmitter & { end: () => void; destroy: () => void; on: typeof EventEmitter.prototype.on };
+      req.destroy = vi.fn();
+      req.end = () => {
+        const res = new EventEmitter() as EventEmitter & { statusCode?: number };
+        res.statusCode = 200;
+        callback(res);
+        res.emit('data', JSON.stringify({
+          five_hour: { utilization: 15 },
+          seven_day: { utilization: 35 },
+        }));
+        res.emit('end');
+      };
+      return req;
+    });
+
+    const result = await getUsage();
+
+    expect(result).toEqual({
+      rateLimits: {
+        fiveHourPercent: 15,
+        weeklyPercent: 35,
+        fiveHourResetsAt: null,
+        weeklyResetsAt: null,
+      },
+    });
+    expect(execFileMock).toHaveBeenCalledOnce();
+  });
+
+  it('uses a different Keychain service when CLAUDE_CONFIG_DIR is already expanded', async () => {
+    process.env.CLAUDE_CONFIG_DIR = '/Users/test/.claude-personal';
+
+    const oneHourFromNow = Date.now() + 60 * 60 * 1000;
+    const execFileMock = vi.mocked(childProcess.execFileSync);
+    const username = os.userInfo().username;
+    const expectedService = expectedServiceName(process.env.CLAUDE_CONFIG_DIR);
+
+    execFileMock.mockImplementation((_file, args) => {
+      const argsArr = args as string[];
+      expect(argsArr).toContain('find-generic-password');
+      expect(argsArr).toContain('-s');
+      expect(argsArr).toContain(expectedService);
+
+      if (argsArr.includes('-a') && argsArr.includes(username)) {
+        return JSON.stringify({
+          claudeAiOauth: {
+            accessToken: 'expanded-token',
+            refreshToken: 'expanded-refresh',
+            expiresAt: oneHourFromNow,
+          },
+        });
+      }
+
+      throw new Error(`unexpected keychain lookup: ${JSON.stringify(argsArr)}`);
+    });
+
+    httpsModule.default.request.mockImplementationOnce((_options, callback) => {
+      const req = new EventEmitter() as EventEmitter & { end: () => void; destroy: () => void; on: typeof EventEmitter.prototype.on };
+      req.destroy = vi.fn();
+      req.end = () => {
+        const res = new EventEmitter() as EventEmitter & { statusCode?: number };
+        res.statusCode = 200;
+        callback(res);
+        res.emit('data', JSON.stringify({
+          five_hour: { utilization: 11 },
+          seven_day: { utilization: 22 },
+        }));
+        res.emit('end');
+      };
+      return req;
+    });
+
+    const result = await getUsage();
+
+    expect(result).toEqual({
+      rateLimits: {
+        fiveHourPercent: 11,
+        weeklyPercent: 22,
+        fiveHourResetsAt: null,
+        weeklyResetsAt: null,
+      },
+    });
+    expect(execFileMock).toHaveBeenCalledOnce();
   });
 
   it('prefers the username-scoped keychain entry when the legacy service-only entry is expired', async () => {
