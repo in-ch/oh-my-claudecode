@@ -134,6 +134,36 @@ export function listTmuxPanes(): TmuxPane[] {
 }
 
 /**
+ * Check whether a tmux pane is alive (not in the dead/exited state).
+ *
+ * tmux sets #{pane_dead} to "1" once the child process in the pane exits.
+ * Capturing content from a dead pane returns stale scrollback and can
+ * trigger spurious keyword alerts — callers should skip capture when this
+ * returns false.
+ *
+ * Returns false for dead panes, invalid pane IDs, and when tmux is unavailable.
+ * Intentionally synchronous so it can be used in fire-and-forget hook paths.
+ */
+export function isPaneAlive(paneId: string): boolean {
+  if (!isTmuxAvailable()) {
+    return false;
+  }
+  if (!isValidPaneId(paneId)) {
+    return false;
+  }
+  try {
+    const result = tmuxExec(
+      ['display-message', '-t', paneId, '-p', '#{pane_dead}'],
+      { stripTmux: true, stdio: 'pipe', timeout: 3000 },
+    );
+    return result.trim() === '0';
+  } catch {
+    // pane gone or session dead — treat as not alive
+    return false;
+  }
+}
+
+/**
  * Capture the content of a specific tmux pane
  *
  * @param paneId - The tmux pane ID (e.g., "%0")

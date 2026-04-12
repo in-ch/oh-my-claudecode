@@ -10,7 +10,6 @@ import {
   writeSync,
 } from "fs";
 import { createHash, randomUUID } from "crypto";
-import { execFileSync } from "child_process";
 import { join } from "path";
 
 import { atomicWriteJsonSync } from "../lib/atomic-write.js";
@@ -242,30 +241,6 @@ function promptHash(prompt: string): string {
   return createHash("sha1").update(prompt).digest("hex").slice(0, 12);
 }
 
-function tmuxSessionExists(tmuxSession: string): boolean {
-  try {
-    execFileSync("tmux", ["has-session", "-t", tmuxSession], {
-      stdio: "ignore",
-      timeout: 2_000,
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function shouldSuppressDeadSessionReplay(event: OpenClawHookEvent, tmuxSession: string): boolean {
-  if (
-    event !== "session-start" &&
-    event !== "keyword-detector" &&
-    event !== "stop" &&
-    event !== "session-end"
-  ) {
-    return false;
-  }
-  return !tmuxSessionExists(tmuxSession);
-}
-
 function buildDescriptor(
   event: OpenClawHookEvent,
   signal: OpenClawSignal,
@@ -374,10 +349,6 @@ export function shouldCollapseOpenClawBurst(
   const projectPath = context.projectPath;
   if (!projectPath || !tmuxSession) {
     return false;
-  }
-
-  if (shouldSuppressDeadSessionReplay(event, tmuxSession)) {
-    return true;
   }
 
   const descriptor = buildDescriptor(event, signal, context, tmuxSession, projectPath);

@@ -582,7 +582,10 @@ describe("burst dedupe for attached multi-pane sessions", () => {
     expect(wakeGateway).toHaveBeenCalledTimes(2);
   });
 
-  it("suppresses pane-derived replay events when the tmux session no longer exists", async () => {
+  it("does not suppress keyword-detector events when the tmux session no longer exists", async () => {
+    // Dead-session suppression lives in index.ts (isPaneAlive guard on capture),
+    // not in the dedupe layer. keyword-detector events go through normal burst
+    // dedupe regardless of tmux session liveness.
     execFileSyncMock.mockImplementation(() => {
       throw new Error("dead session");
     });
@@ -593,7 +596,7 @@ describe("burst dedupe for attached multi-pane sessions", () => {
       prompt: "stale pane replay",
     });
 
-    expect(result).toMatchObject({ success: true, skipped: "deduped" });
-    expect(wakeGateway).not.toHaveBeenCalled();
+    expect(result).toMatchObject({ success: true });
+    expect(wakeGateway).toHaveBeenCalledOnce();
   });
 });
