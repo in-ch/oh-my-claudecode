@@ -9,7 +9,7 @@
  */
 /**
  * Get the current scrollback history size for a tmux pane.
- * Returns null when the pane does not exist or tmux is unavailable.
+ * Returns null when the pane is dead, does not exist, or tmux is unavailable.
  */
 export declare function getPaneHistorySize(paneId: string): number | null;
 /**

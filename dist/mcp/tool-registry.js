@@ -22,6 +22,10 @@ import { stateTools } from '../tools/state-tools.js';
 import { notepadTools } from '../tools/notepad-tools.js';
 import { memoryTools } from '../tools/memory-tools.js';
 import { traceTools } from '../tools/trace-tools.js';
+import { sharedMemoryTools } from '../tools/shared-memory-tools.js';
+import { deepinitManifestTool } from '../tools/deepinit-manifest.js';
+import { wikiTools } from '../tools/wiki-tools.js';
+import { skillsTools } from '../tools/skills-tools.js';
 import { z } from 'zod';
 /** All tools exposed by the standalone server, in registration order. */
 export const allTools = [
@@ -32,6 +36,10 @@ export const allTools = [
     ...notepadTools,
     ...memoryTools,
     ...traceTools,
+    ...sharedMemoryTools,
+    deepinitManifestTool,
+    ...wikiTools,
+    ...skillsTools,
 ];
 // ---------------------------------------------------------------------------
 // Zod → JSON Schema helpers (mirrors what the MCP server sends over the wire)

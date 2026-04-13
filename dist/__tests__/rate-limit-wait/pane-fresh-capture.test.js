@@ -23,6 +23,7 @@ function noStateFile() {
 /** Set up fs mock so state file contains the given pane positions. */
 function withStateFile(positions) {
     vi.mocked(existsSync).mockReturnValue(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(readFileSync).mockReturnValue(JSON.stringify(positions));
 }
 /** Queue tmuxExec to return history_size then (optionally) captured lines. */
@@ -170,13 +171,21 @@ describe('pane-fresh-capture', () => {
             vi.mocked(tmuxExec).mockReturnValue('  137  \n');
             const result = getPaneHistorySize('%3');
             expect(result).toBe(137);
-            expect(tmuxExec).toHaveBeenCalledWith(['display-message', '-t', '%3', '-p', '#{history_size}'], expect.objectContaining({ timeout: 3000 }));
+            expect(tmuxExec).toHaveBeenCalledWith(['display-message', '-t', '%3', '-p', '#{pane_dead} #{history_size}'], expect.objectContaining({ timeout: 3000 }));
         });
         it('returns null when tmuxExec throws', () => {
             vi.mocked(tmuxExec).mockImplementation(() => {
                 throw new Error('no tmux');
             });
             expect(getPaneHistorySize('%3')).toBeNull();
+        });
+        it('returns null when tmux reports the pane as dead', () => {
+            vi.mocked(tmuxExec).mockReturnValue('1 137\n');
+            expect(getPaneHistorySize('%3')).toBeNull();
+        });
+        it('parses history size when tmux reports a live pane', () => {
+            vi.mocked(tmuxExec).mockReturnValue('0 137\n');
+            expect(getPaneHistorySize('%3')).toBe(137);
         });
         it('returns null for non-numeric output', () => {
             vi.mocked(tmuxExec).mockReturnValue('not-a-number');

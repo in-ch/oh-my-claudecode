@@ -43,11 +43,21 @@ function writePaneTailState(stateDir, state) {
 }
 /**
  * Get the current scrollback history size for a tmux pane.
- * Returns null when the pane does not exist or tmux is unavailable.
+ * Returns null when the pane is dead, does not exist, or tmux is unavailable.
  */
 export function getPaneHistorySize(paneId) {
     try {
-        const raw = tmuxExec(['display-message', '-t', paneId, '-p', '#{history_size}'], { stripTmux: true, timeout: 3000 }).trim();
+        const raw = tmuxExec(['display-message', '-t', paneId, '-p', '#{pane_dead} #{history_size}'], { stripTmux: true, timeout: 3000 }).trim();
+        const parts = raw.split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+            const [paneDeadRaw, historySizeRaw] = parts;
+            if (paneDeadRaw === '1') {
+                return null;
+            }
+            const n = parseInt(historySizeRaw ?? '', 10);
+            return Number.isFinite(n) && n >= 0 ? n : null;
+        }
+        // Backward-compatible fallback if tmux returns only history_size.
         const n = parseInt(raw, 10);
         return Number.isFinite(n) && n >= 0 ? n : null;
     }
