@@ -57,7 +57,7 @@ describe('team CLI worktree status contract', () => {
       worktree_branch: 'omc-team/demo-team/worker-1',
       worktree_detached: false,
       worktree_created: true,
-      team_state_root: '/repo/.omc/state',
+      team_state_root: '/repo/.omc/state/team/demo-team',
     };
     monitorMocks.readTeamConfig.mockResolvedValue({
       name: 'demo-team',
@@ -72,7 +72,7 @@ describe('team CLI worktree status contract', () => {
       next_task_id: 2,
       workspace_mode: 'worktree',
       worktree_mode: 'named',
-      team_state_root: '/repo/.omc/state',
+      team_state_root: '/repo/.omc/state/team/demo-team',
       leader_pane_id: '%0',
       hud_pane_id: null,
       resize_hook_name: null,
@@ -86,7 +86,7 @@ describe('team CLI worktree status contract', () => {
       running: true,
       workspaceMode: 'worktree',
       worktreeMode: 'named',
-      teamStateRoot: '/repo/.omc/state',
+      teamStateRoot: '/repo/.omc/state/team/demo-team',
       workers: [expect.objectContaining({
         worktree_repo_root: '/repo',
         worktree_path: '/repo/.omc/team/demo-team/worktrees/worker-1',

@@ -9,7 +9,7 @@ describe('team summary worktree metadata', () => {
     const cwd = mkdtempSync(join(tmpdir(), 'omc-summary-worktree-'));
     const teamName = 'summary-team';
     const teamRoot = join(cwd, '.omc', 'state', 'team', teamName);
-    const teamStateRoot = join(cwd, '.omc', 'state');
+    const teamStateRoot = join(cwd, '.omc', 'state', 'team', teamName);
     const worktreePath = join(cwd, '.omc', 'team', teamName, 'worktrees', 'worker-1');
     try {
       mkdirSync(teamRoot, { recursive: true });
