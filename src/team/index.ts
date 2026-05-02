@@ -294,6 +294,17 @@ export type {
 } from './worktree.js';
 
 export {
+  canResumeTeamState,
+  createTeamState,
+  getPhaseAgents,
+  getPhaseInstructions,
+  isTerminalPhase as isTerminalTeamOrchestratorPhase,
+  isValidTransition,
+  transitionPhase as transitionTeamOrchestratorPhase,
+} from './orchestrator.js';
+export type { TeamPhase as TeamPipelinePhase, TeamState as TeamOrchestratorState, TerminalPhase as TeamTerminalPhase } from './orchestrator.js';
+
+export {
   checkSentinelReadiness,
   waitForSentinelReadiness,
 } from './sentinel-gate.js';

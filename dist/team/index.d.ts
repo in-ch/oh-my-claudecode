@@ -60,6 +60,8 @@ export { buildRepoAwareTeamExecutionPlan, remapRepoAwareDecompositionMetadataToC
 export type { LegacyTeamExecutionPlanInput, RepoAwareTask, RepoAwareTeamExecutionPlan, TaskHintSummary, TeamDecompositionMetadata, } from './repo-aware-decomposition.js';
 export { assertCleanLeaderWorkspaceForWorkerWorktrees, ensureWorktree, isGitRepository, isWorktreeDirty, parseWorktreeMode, planWorktreeTarget, readWorkspaceStatusLines, removeWorktreeForce, rollbackProvisionedWorktrees, } from './worktree.js';
 export type { EnsureWorktreeOptions, EnsureWorktreeResult, ParsedWorktreeMode, PlannedWorktreeTarget, RollbackWorktreeOptions, WorktreeMode, WorktreePlanInput, } from './worktree.js';
+export { canResumeTeamState, createTeamState, getPhaseAgents, getPhaseInstructions, isTerminalPhase as isTerminalTeamOrchestratorPhase, isValidTransition, transitionPhase as transitionTeamOrchestratorPhase, } from './orchestrator.js';
+export type { TeamPhase as TeamPipelinePhase, TeamState as TeamOrchestratorState, TerminalPhase as TeamTerminalPhase } from './orchestrator.js';
 export { checkSentinelReadiness, waitForSentinelReadiness, } from './sentinel-gate.js';
 export type { SentinelReadinessOptions, SentinelGateResult, SentinelWaitOptions, SentinelWaitResult, } from './sentinel-gate.js';
 export type { CliAgentType, CliAgentContract, WorkerLaunchConfig } from './model-contract.js';
