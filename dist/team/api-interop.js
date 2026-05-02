@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve as resolvePath } from 'node:path';
 import { TEAM_NAME_SAFE_PATTERN, WORKER_NAME_SAFE_PATTERN, TASK_ID_SAFE_PATTERN, TEAM_TASK_STATUSES, TEAM_EVENT_TYPES, TEAM_TASK_APPROVAL_STATUSES, } from './contracts.js';
 import { teamSendMessage as sendDirectMessage, teamBroadcast as broadcastMessage, teamListMailbox as listMailboxMessages, teamMarkMessageDelivered as markMessageDelivered, teamMarkMessageNotified as markMessageNotified, teamCreateTask, teamReadTask, teamListTasks, teamUpdateTask, teamClaimTask, teamTransitionTaskStatus, teamReleaseTaskClaim, teamReadConfig, teamReadManifest, teamReadWorkerStatus, teamReadWorkerHeartbeat, teamUpdateWorkerHeartbeat, teamWriteWorkerInbox, teamWriteWorkerIdentity, teamAppendEvent, teamGetSummary, teamCleanup, teamWriteShutdownRequest, teamReadShutdownAck, teamReadMonitorSnapshot, teamWriteMonitorSnapshot, teamReadTaskApproval, teamWriteTaskApproval, } from './team-ops.js';
+import { readTeamEvents } from './events.js';
 import { queueBroadcastMailboxMessage, queueDirectMailboxMessage } from './mcp-comm.js';
 import { injectToLeaderPane, sendToWorker } from './tmux-session.js';
 import { listDispatchRequests, markDispatchRequestDelivered, markDispatchRequestNotified } from './dispatch-queue.js';
@@ -10,7 +11,7 @@ import { shutdownTeam } from './runtime.js';
 import { shutdownTeamV2 } from './runtime-v2.js';
 import { inspectTeamWorktreeCleanupSafety } from './git-worktree.js';
 import { createSwallowedErrorLogger } from '../lib/swallowed-error.js';
-const TEAM_UPDATE_TASK_MUTABLE_FIELDS = new Set(['subject', 'description', 'blocked_by', 'requires_code_change']);
+const TEAM_UPDATE_TASK_MUTABLE_FIELDS = new Set(['subject', 'description', 'blocked_by', 'requires_code_change', 'delegation']);
 const TEAM_UPDATE_TASK_REQUEST_FIELDS = new Set(['team_name', 'task_id', 'workingDirectory', ...TEAM_UPDATE_TASK_MUTABLE_FIELDS]);
 export const LEGACY_TEAM_MCP_TOOLS = [
     'team_send_message',
@@ -63,6 +64,10 @@ export const TEAM_API_OPERATIONS = [
     'write-worker-inbox',
     'write-worker-identity',
     'append-event',
+    'read-events',
+    'await-event',
+    'read-idle-state',
+    'read-stall-state',
     'get-summary',
     'cleanup',
     'write-shutdown-request',
@@ -75,6 +80,150 @@ export const TEAM_API_OPERATIONS = [
 ];
 function isFiniteInteger(value) {
     return typeof value === 'number' && Number.isInteger(value) && Number.isFinite(value);
+}
+function parseOptionalNonNegativeInteger(value, fieldName) {
+    if (value === undefined)
+        return null;
+    if (!isFiniteInteger(value) || value < 0) {
+        throw new Error(`${fieldName} must be a non-negative integer when provided`);
+    }
+    return value;
+}
+function parseOptionalBoolean(value, fieldName) {
+    if (value === undefined)
+        return null;
+    if (typeof value !== 'boolean')
+        throw new Error(`${fieldName} must be a boolean when provided`);
+    return value;
+}
+function parseOptionalEventType(value) {
+    if (value === undefined)
+        return null;
+    if (typeof value !== 'string')
+        throw new Error('type must be a string when provided');
+    const normalized = value.trim();
+    if (!normalized)
+        throw new Error('type cannot be empty when provided');
+    if (!TEAM_EVENT_TYPES.includes(normalized)) {
+        throw new Error(`type must be one of: ${TEAM_EVENT_TYPES.join(', ')}`);
+    }
+    return normalized;
+}
+const WAKEABLE_TEAM_EVENT_TYPES = new Set([
+    'task_completed',
+    'task_failed',
+    'worker_idle',
+    'worker_stopped',
+    'message_received',
+    'shutdown_ack',
+    'shutdown_gate',
+    'shutdown_gate_forced',
+    'approval_decision',
+    'team_leader_nudge',
+]);
+function filterTeamEvents(events, opts) {
+    const afterEventId = opts.afterEventId?.trim() ?? '';
+    const cursorIndex = afterEventId ? events.findIndex((event) => event.event_id === afterEventId) : -1;
+    const cursorSequence = /^\d+$/.test(afterEventId) ? BigInt(afterEventId) : null;
+    const candidates = cursorIndex >= 0
+        ? events.slice(cursorIndex + 1)
+        : events.filter((event) => {
+            if (!afterEventId)
+                return true;
+            if (cursorSequence === null || !/^\d+$/.test(event.event_id))
+                return true;
+            return BigInt(event.event_id) > cursorSequence;
+        });
+    return candidates.filter((event) => {
+        if (opts.wakeableOnly === true && !WAKEABLE_TEAM_EVENT_TYPES.has(event.type))
+            return false;
+        if (opts.type && event.type !== opts.type)
+            return false;
+        if (opts.worker && event.worker !== opts.worker)
+            return false;
+        if (opts.taskId && event.task_id !== opts.taskId)
+            return false;
+        return true;
+    });
+}
+function summarizeEvent(event) {
+    if (!event)
+        return null;
+    return {
+        event_id: event.event_id,
+        type: event.type,
+        worker: event.worker,
+        task_id: event.task_id ?? null,
+        message_id: event.message_id ?? null,
+        created_at: event.created_at,
+        reason: event.reason ?? null,
+    };
+}
+function buildIdleState(teamName, summary, snapshot, recentEvents) {
+    const workerNames = new Set();
+    for (const worker of summary?.workers ?? [])
+        workerNames.add(worker.name);
+    for (const worker of Object.keys(snapshot?.workerStateByName ?? {}))
+        workerNames.add(worker);
+    const names = [...workerNames].sort();
+    const idleWorkers = names.filter((worker) => snapshot?.workerStateByName?.[worker] === 'idle');
+    const latestIdleByWorker = Object.fromEntries(names.map((worker) => {
+        const latest = [...recentEvents].reverse().find((event) => event.worker === worker && event.type === 'worker_idle') ?? null;
+        return [worker, summarizeEvent(latest)];
+    }));
+    return {
+        team_name: teamName,
+        worker_count: summary?.workerCount ?? names.length,
+        idle_worker_count: idleWorkers.length,
+        idle_workers: idleWorkers,
+        non_idle_workers: names.filter((worker) => !idleWorkers.includes(worker)),
+        all_workers_idle: names.length > 0 && idleWorkers.length === names.length,
+        last_idle_transition_by_worker: latestIdleByWorker,
+        source: {
+            summary_available: summary !== null,
+            snapshot_available: snapshot !== null,
+            recent_event_count: recentEvents.length,
+        },
+    };
+}
+function buildStallState(teamName, summary, snapshot, recentEvents, pendingLeaderDispatchCount) {
+    const idleState = buildIdleState(teamName, summary, snapshot, recentEvents);
+    const workerNames = (summary?.workers ?? []).map((worker) => worker.name).sort();
+    const deadWorkers = (summary?.workers ?? []).filter((worker) => worker.alive === false).map((worker) => worker.name).sort();
+    const stalledWorkers = [...(summary?.nonReportingWorkers ?? [])].sort();
+    const pendingTaskCount = (summary?.tasks.pending ?? 0) + (summary?.tasks.blocked ?? 0) + (summary?.tasks.in_progress ?? 0);
+    const liveWorkers = workerNames.filter((worker) => !deadWorkers.includes(worker));
+    const leaderAttentionPending = pendingLeaderDispatchCount > 0;
+    const teamStalled = stalledWorkers.length > 0 || leaderAttentionPending || (deadWorkers.length > 0 && pendingTaskCount > 0);
+    const reasons = [];
+    if (stalledWorkers.length > 0)
+        reasons.push(`workers_non_reporting:${stalledWorkers.join(',')}`);
+    if (deadWorkers.length > 0 && pendingTaskCount > 0)
+        reasons.push(`dead_workers_with_pending_work:${deadWorkers.join(',')}`);
+    if (pendingLeaderDispatchCount > 0)
+        reasons.push('leader_attention_pending:leader_dispatch_pending');
+    return {
+        team_name: teamName,
+        team_stalled: teamStalled,
+        leader_stale: false,
+        leader_attention_pending: leaderAttentionPending,
+        leader_decision_state: pendingTaskCount === 0 && idleState.all_workers_idle === true ? 'done_waiting_on_leader' : 'still_actionable',
+        stalled_workers: stalledWorkers,
+        dead_workers: deadWorkers,
+        live_workers: liveWorkers,
+        pending_task_count: pendingTaskCount,
+        unread_leader_message_count: 0,
+        pending_leader_dispatch_count: pendingLeaderDispatchCount,
+        all_workers_idle: idleState.all_workers_idle,
+        idle_workers: idleState.idle_workers,
+        reasons,
+        last_team_leader_nudge_event: summarizeEvent([...recentEvents].reverse().find((event) => event.type === 'team_leader_nudge') ?? null),
+        source: {
+            summary_available: summary !== null,
+            snapshot_available: snapshot !== null,
+            recent_event_count: recentEvents.length,
+        },
+    };
 }
 function parseValidatedTaskIdArray(value, fieldName) {
     if (!Array.isArray(value)) {
@@ -92,6 +241,64 @@ function parseValidatedTaskIdArray(value, fieldName) {
         taskIds.push(normalized);
     }
     return taskIds;
+}
+function parseTaskDelegationPlan(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        throw new Error('delegation must be an object');
+    }
+    const raw = value;
+    const mode = raw.mode;
+    if (mode !== 'none' && mode !== 'optional' && mode !== 'auto' && mode !== 'required') {
+        throw new Error('delegation.mode must be one of: none, optional, auto, required');
+    }
+    const plan = { mode };
+    if ('max_parallel_subtasks' in raw) {
+        if (!isFiniteInteger(raw.max_parallel_subtasks) || raw.max_parallel_subtasks < 1) {
+            throw new Error('delegation.max_parallel_subtasks must be a positive integer when provided');
+        }
+        plan.max_parallel_subtasks = raw.max_parallel_subtasks;
+    }
+    if ('required_parallel_probe' in raw) {
+        if (typeof raw.required_parallel_probe !== 'boolean')
+            throw new Error('delegation.required_parallel_probe must be a boolean when provided');
+        plan.required_parallel_probe = raw.required_parallel_probe;
+    }
+    if ('spawn_before_serial_search_threshold' in raw) {
+        if (!isFiniteInteger(raw.spawn_before_serial_search_threshold) || raw.spawn_before_serial_search_threshold < 1) {
+            throw new Error('delegation.spawn_before_serial_search_threshold must be a positive integer when provided');
+        }
+        plan.spawn_before_serial_search_threshold = raw.spawn_before_serial_search_threshold;
+    }
+    if ('child_model_policy' in raw) {
+        const policy = raw.child_model_policy;
+        if (policy !== 'standard' && policy !== 'fast' && policy !== 'inherit' && policy !== 'frontier') {
+            throw new Error('delegation.child_model_policy must be one of: standard, fast, inherit, frontier');
+        }
+        plan.child_model_policy = policy;
+    }
+    if ('child_model' in raw) {
+        if (typeof raw.child_model !== 'string')
+            throw new Error('delegation.child_model must be a string when provided');
+        plan.child_model = raw.child_model;
+    }
+    if ('subtask_candidates' in raw) {
+        if (!Array.isArray(raw.subtask_candidates) || !raw.subtask_candidates.every((item) => typeof item === 'string')) {
+            throw new Error('delegation.subtask_candidates must be an array of strings when provided');
+        }
+        plan.subtask_candidates = raw.subtask_candidates;
+    }
+    if ('child_report_format' in raw) {
+        const format = raw.child_report_format;
+        if (format !== 'bullets' && format !== 'json')
+            throw new Error('delegation.child_report_format must be bullets or json when provided');
+        plan.child_report_format = format;
+    }
+    if ('skip_allowed_reason_required' in raw) {
+        if (typeof raw.skip_allowed_reason_required !== 'boolean')
+            throw new Error('delegation.skip_allowed_reason_required must be a boolean when provided');
+        plan.skip_allowed_reason_required = raw.skip_allowed_reason_required;
+    }
+    return plan;
 }
 function teamStateExists(teamName, candidateCwd) {
     if (!TEAM_NAME_SAFE_PATTERN.test(teamName))
@@ -499,8 +706,18 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                 const owner = args.owner;
                 const blockedBy = args.blocked_by;
                 const requiresCodeChange = args.requires_code_change;
+                let delegation;
+                if ('delegation' in args) {
+                    try {
+                        delegation = parseTaskDelegationPlan(args.delegation);
+                    }
+                    catch (error) {
+                        return { ok: false, operation, error: { code: 'invalid_input', message: error.message } };
+                    }
+                }
                 const task = await teamCreateTask(teamName, {
                     subject, description, status: 'pending', owner: owner || undefined, blocked_by: blockedBy, requires_code_change: requiresCodeChange,
+                    ...(delegation ? { delegation } : {}),
                 }, cwd);
                 return { ok: true, operation, data: { task } };
             }
@@ -565,6 +782,14 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                         return { ok: false, operation, error: { code: 'invalid_input', message: error.message } };
                     }
                 }
+                if ('delegation' in args) {
+                    try {
+                        updates.delegation = parseTaskDelegationPlan(args.delegation);
+                    }
+                    catch (error) {
+                        return { ok: false, operation, error: { code: 'invalid_input', message: error.message } };
+                    }
+                }
                 const task = await teamUpdateTask(teamName, taskId, updates, cwd);
                 return task
                     ? { ok: true, operation, data: { task } }
@@ -590,6 +815,8 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                 const from = String(args.from || '').trim();
                 const to = String(args.to || '').trim();
                 const claimToken = String(args.claim_token || '').trim();
+                const transitionResult = args.result;
+                const transitionError = args.error;
                 if (!teamName || !taskId || !from || !to || !claimToken) {
                     return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name, task_id, from, to, claim_token are required' } };
                 }
@@ -597,7 +824,16 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                 if (!allowed.has(from) || !allowed.has(to)) {
                     return { ok: false, operation, error: { code: 'invalid_input', message: 'from and to must be valid task statuses' } };
                 }
-                const result = await teamTransitionTaskStatus(teamName, taskId, from, to, claimToken, cwd);
+                if (transitionResult !== undefined && typeof transitionResult !== 'string') {
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'result must be a string when provided' } };
+                }
+                if (transitionError !== undefined && typeof transitionError !== 'string') {
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'error must be a string when provided' } };
+                }
+                const result = await teamTransitionTaskStatus(teamName, taskId, from, to, claimToken, cwd, {
+                    result: typeof transitionResult === 'string' ? transitionResult : undefined,
+                    error: typeof transitionError === 'string' ? transitionError : undefined,
+                });
                 return { ok: true, operation, data: result };
             }
             case 'release-task-claim': {
@@ -710,6 +946,72 @@ export async function executeTeamApiOperation(operation, args, fallbackCwd) {
                     reason: args.reason,
                 }, cwd);
                 return { ok: true, operation, data: { event } };
+            }
+            case 'read-events': {
+                const teamName = String(args.team_name || '').trim();
+                if (!teamName)
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name is required' } };
+                const wakeableOnly = parseOptionalBoolean(args.wakeable_only, 'wakeable_only');
+                const type = parseOptionalEventType(args.type);
+                const worker = typeof args.worker === 'string' ? args.worker.trim() : '';
+                const taskId = typeof args.task_id === 'string' ? args.task_id.trim() : '';
+                const afterEventId = typeof args.after_event_id === 'string' ? args.after_event_id.trim() : '';
+                const events = filterTeamEvents(await readTeamEvents(teamName, cwd), { afterEventId, wakeableOnly, type, worker, taskId });
+                return { ok: true, operation, data: { count: events.length, cursor: events.at(-1)?.event_id ?? afterEventId, events } };
+            }
+            case 'await-event': {
+                const teamName = String(args.team_name || '').trim();
+                if (!teamName)
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name is required' } };
+                const timeoutMs = parseOptionalNonNegativeInteger(args.timeout_ms, 'timeout_ms') ?? 30_000;
+                const pollMs = parseOptionalNonNegativeInteger(args.poll_ms, 'poll_ms') ?? 250;
+                const wakeableOnly = parseOptionalBoolean(args.wakeable_only, 'wakeable_only');
+                const type = parseOptionalEventType(args.type);
+                const worker = typeof args.worker === 'string' ? args.worker.trim() : '';
+                const taskId = typeof args.task_id === 'string' ? args.task_id.trim() : '';
+                const afterEventId = typeof args.after_event_id === 'string' ? args.after_event_id.trim() : '';
+                const deadline = Date.now() + timeoutMs;
+                const cursor = afterEventId;
+                while (true) {
+                    const events = filterTeamEvents(await readTeamEvents(teamName, cwd), { afterEventId: cursor, wakeableOnly, type, worker, taskId });
+                    if (events.length > 0) {
+                        const event = events[0];
+                        return { ok: true, operation, data: { status: 'event', cursor: event.event_id, event } };
+                    }
+                    if (Date.now() >= deadline) {
+                        return { ok: true, operation, data: { status: 'timeout', cursor, event: null } };
+                    }
+                    await new Promise((resolve) => setTimeout(resolve, Math.min(pollMs, Math.max(0, deadline - Date.now()))));
+                }
+            }
+            case 'read-idle-state': {
+                const teamName = String(args.team_name || '').trim();
+                if (!teamName)
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name is required' } };
+                const [summary, snapshot, events] = await Promise.all([
+                    teamGetSummary(teamName, cwd),
+                    teamReadMonitorSnapshot(teamName, cwd),
+                    readTeamEvents(teamName, cwd),
+                ]);
+                if (!summary)
+                    return { ok: false, operation, error: { code: 'team_not_found', message: 'team_not_found' } };
+                const recentEvents = events.slice(Math.max(0, events.length - 50));
+                return { ok: true, operation, data: buildIdleState(teamName, summary, snapshot, recentEvents) };
+            }
+            case 'read-stall-state': {
+                const teamName = String(args.team_name || '').trim();
+                if (!teamName)
+                    return { ok: false, operation, error: { code: 'invalid_input', message: 'team_name is required' } };
+                const [summary, snapshot, events, pendingLeaderDispatch] = await Promise.all([
+                    teamGetSummary(teamName, cwd),
+                    teamReadMonitorSnapshot(teamName, cwd),
+                    readTeamEvents(teamName, cwd),
+                    listDispatchRequests(teamName, cwd, { status: 'pending', to_worker: 'leader-fixed' }),
+                ]);
+                if (!summary)
+                    return { ok: false, operation, error: { code: 'team_not_found', message: 'team_not_found' } };
+                const recentEvents = events.slice(Math.max(0, events.length - 50));
+                return { ok: true, operation, data: buildStallState(teamName, summary, snapshot, recentEvents, pendingLeaderDispatch.length) };
             }
             case 'get-summary': {
                 const teamName = String(args.team_name || '').trim();

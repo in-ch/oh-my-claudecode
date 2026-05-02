@@ -1129,7 +1129,7 @@ export async function executeTeamApiOperation(
         const taskId = typeof args.task_id === 'string' ? args.task_id.trim() : '';
         const afterEventId = typeof args.after_event_id === 'string' ? args.after_event_id.trim() : '';
         const deadline = Date.now() + timeoutMs;
-        let cursor = afterEventId;
+        const cursor = afterEventId;
         while (true) {
           const events = filterTeamEvents(await readTeamEvents(teamName, cwd), { afterEventId: cursor, wakeableOnly, type, worker, taskId });
           if (events.length > 0) {
